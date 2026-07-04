@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>J3S — Water Refilling, Ice & Laundry | Biñan · Carmona · Caloocan</title>
-<meta name="description" content="J3S Water Refilling Station, Tube Ice, and Laundry services. 7 branches across Biñan Laguna, Carmona Cavite, and Baesa Caloocan. Order online, pay cash or GCash.">
+<meta name="description" content="J3S Water Refilling Station, Tube Ice, and Laundry services. 8 branches across Biñan Laguna, Carmona Cavite, and Baesa Caloocan. Open 7 AM–7 PM. Order online, pay cash or GCash.">
 <style>
 /* ─── J3S brand tokens ─────────────────────────────────────────
    ink   #0B2436  deep harbor blue (text)
@@ -168,7 +168,7 @@ footer .triband{margin-bottom:18px}
       </h1>
       <p class="hero-sub">Clean purified water, fresh tube ice, and wash-dry-fold laundry —
         delivered by your neighborhood J3S branch.</p>
-      <p class="hero-note">7 branches across Biñan Laguna, Carmona Cavite &amp; Baesa Caloocan · Cash or GCash</p>
+      <p class="hero-note">8 branches across Biñan Laguna, Carmona Cavite &amp; Baesa Caloocan · Open 7 AM – 7 PM · Cash or GCash</p>
       <div class="cta-row">
         <a class="btn sun" href="#branches">Find your branch</a>
         <a class="btn" href="#prices" style="background:transparent;color:var(--sea);border:2px solid var(--sea)">See prices</a>
@@ -214,7 +214,7 @@ footer .triband{margin-bottom:18px}
   <section id="branches" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="wrap">
       <p class="eyebrow">Find us</p>
-      <h2>Seven branches, one tap to order</h2>
+      <h2>Eight branches, one tap to order</h2>
       <div class="branch-grid" id="branchGrid"><!-- rendered from CONTENT --></div>
     </div>
   </section>
@@ -298,13 +298,13 @@ footer .triband{margin-bottom:18px}
           <span class="bar" style="background:#1C7ED6" aria-hidden="true"></span>
           <h3>GCash</h3>
           <p>Each branch has its own GCash number — it's shown on your branch card above. Put the reference number on your order; every payment is checked against our records.</p>
-          <p class="price">All 7 branches accept GCash</p>
+          <p class="price">Every branch accepts GCash</p>
         </div>
         <div class="card reveal">
           <span class="bar" style="background:#2F9E44" aria-hidden="true"></span>
           <h3>Cash</h3>
           <p>Cash on delivery or over the counter at any branch. Official receipt recorded on the spot.</p>
-          <p class="price">Accepted at all 7 branches</p>
+          <p class="price">Accepted at every branch</p>
         </div>
       </div>
     </div>
@@ -351,32 +351,36 @@ var CONTENT = {
   facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
 
   branches: [
+    { name:"J3S1 Hawaii", area:"Hawaii, Southville, Biñan, Laguna",
+      services:["laundry"], phone:null, hours:"Open daily · 7 AM – 7 PM",
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
+      order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S Southville Main", area:"Southville, Biñan, Laguna",
-      services:["water","ice","laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:null,
+      services:["water","ice","laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S2 Arkansas ICE", area:"Arkansas, Southville, Biñan — ICE plant & wholesale",
-      services:["ice"], phone:"0961 857 3327", hours:null,
+      services:["ice"], phone:"0961 857 3327", hours:"Open daily · 7 AM – 7 PM",
       gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
       order:"https://j3s2-arkansas-ice-production.up.railway.app/order" },
     { name:"J3S3 Terraverde", area:"Terraverde, Biñan, Laguna",
-      services:["water","ice","laundry"], phone:"0945 872 7626", hours:null,
+      services:["water","ice","laundry"], phone:"0945 872 7626", hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
       order:"https://j3s-terraverde.up.railway.app/order" },
     { name:"J3S4 PUC", area:"PUC Baesa, Caloocan",
-      services:["water","laundry"], phone:null, hours:null,
+      services:["water","laundry"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
       order:"https://j3s4-puc.up.railway.app/order" },
     { name:"J3S5 SouthCity", area:"South City, Biñan, Laguna",
-      services:["water"], phone:null, hours:null,
+      services:["water"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Jeffrey L.", number:"0928 398 9415" },
       order:"https://j3s5-southcity.up.railway.app/order" },
     { name:"J3S6 Adelina", area:"Adelina, San Pedro, Laguna",
-      services:["water"], phone:"0946 985 1019", hours:null,
+      services:["water"], phone:"0946 985 1019", hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Rosalinda L", number:"0935 529 8131" },
       order:"https://j3s6-adelina.up.railway.app/order" },
     { name:"J3S7 Carmona", area:"Carmona Estates, Carmona, Cavite",
-      services:["water","ice","laundry"], phone:"0924 484 0636", hours:null,
+      services:["water","ice","laundry"], phone:"0924 484 0636", hours:"7 AM – 7 PM · Closed Wednesdays",
       gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
       order:"https://j3s7-carmona-production.up.railway.app/order" }
   ],
