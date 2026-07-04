@@ -218,6 +218,24 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   color:var(--mist);cursor:pointer;line-height:1}
 .qr-modal .hint{font-size:13px;color:var(--mist)}
 
+/* floating Messenger chat */
+.chat-fab{position:fixed;right:18px;bottom:18px;z-index:70;width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#1C7ED6,#0E5E8A);color:#fff;border:0;cursor:pointer;font-size:26px;
+  box-shadow:0 6px 20px rgba(11,36,54,.35);display:flex;align-items:center;justify-content:center}
+.chat-fab:hover{transform:scale(1.06)}
+@media(max-width:700px){ .chat-fab{bottom:74px} }
+.chat-panel{display:none;position:fixed;right:18px;bottom:86px;z-index:70;width:300px;max-height:70vh;overflow-y:auto;
+  background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(11,36,54,.25);padding:16px}
+.chat-panel.open{display:block}
+@media(max-width:700px){ .chat-panel{bottom:142px} }
+.chat-panel h4{font-size:15px;font-weight:800;margin-bottom:4px}
+.chat-panel .sub{font-size:12.5px;color:var(--mist);margin-bottom:10px}
+.chat-list{display:flex;flex-direction:column;gap:6px}
+.chat-list a{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:10px;
+  font-size:14px;font-weight:600;text-decoration:none;color:var(--ink)}
+.chat-list a:hover{background:#E3F0F7;color:var(--sea)}
+.chat-list .none{font-size:13px;color:var(--mist)}
+
 /* sticky mobile order bar */
 .mobile-cta{display:none}
 @media(max-width:700px){
@@ -487,6 +505,13 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   </div>
 </div>
 
+<button type="button" class="chat-fab" onclick="toggleChat()" aria-label="Chat with us on Messenger" title="Chat with us">💬</button>
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with a branch">
+  <h4>Chat with us! 💬</h4>
+  <p class="sub">Piliin ang branch mo — diretso sa Messenger nila.</p>
+  <div class="chat-list" id="chatList"></div>
+</div>
+
 <a class="mobile-cta" href="#branches">Order Now — find your branch</a>
 
 <footer>
@@ -663,6 +688,25 @@ document.getElementById('fbLine').innerHTML = !C.facebook
       ? '<a href="' + esc(C.facebook) + '">' + esc(C.facebook) + '</a>'
       : 'Message us on Messenger:<br><b>' + esc(C.facebook) + '</b>');
 
+/* Messenger chat list: branches with their own Messenger first,
+   global page as fallback */
+var _cl = document.getElementById('chatList');
+if (_cl) {
+  var chatLinks = C.branches
+    .filter(function(b){ return b.messenger; })
+    .map(function(b){
+      var url = b.messenger.indexOf('http') === 0 ? b.messenger : 'https://m.me/' + b.messenger;
+      return '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(b.name) + '</a>';
+    });
+  if (!chatLinks.length && C.facebook) {
+    chatLinks.push(C.facebook.indexOf('http') === 0
+      ? '<a href="' + esc(C.facebook) + '" target="_blank" rel="noopener">J3S — Message us on Facebook</a>'
+      : '<span class="none">Search <b>' + esc(C.facebook) + '</b> on Facebook Messenger</span>');
+  }
+  _cl.innerHTML = chatLinks.join('') ||
+    '<span class="none">Messenger links coming soon — tawagan kami sa branch numbers above!</span>';
+}
+
 /* keep the feedback form's branch dropdown in sync */
 var _fbSel = document.getElementById('fbBranch');
 if (_fbSel) {
@@ -771,6 +815,7 @@ function openQr(i) {
   document.getElementById('qrOverlay').classList.add('open');
 }
 function closeQr() { document.getElementById('qrOverlay').classList.remove('open'); }
+function toggleChat() { document.getElementById('chatPanel').classList.toggle('open'); }
 document.getElementById('qrOverlay').addEventListener('click', function(e){
   if (e.target === this) closeQr();
 });
