@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>J3S — Water Refilling, Ice & Laundry | Biñan · Carmona · Caloocan</title>
 <meta name="description" content="J3S Water Refilling Station, Tube Ice, and Laundry services. 8 branches across Biñan Laguna, Carmona Cavite, and Baesa Caloocan. Open 7 AM–7 PM. Order online, pay cash or GCash.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "J3S Water Refilling, Ice & Laundry",
+  "email": "jcl_rock@yahoo.com",
+  "areaServed": ["Biñan, Laguna", "Carmona, Cavite", "Baesa, Caloocan", "San Pedro, Laguna"],
+  "department": [
+    {"@type":"LocalBusiness","name":"J3S1 Hawaii","description":"Laundry","telephone":"+639649704121","openingHours":"Mo-Su 07:00-19:00"},
+    {"@type":"LocalBusiness","name":"J3S Southville Main","description":"Water refilling, ice, laundry","telephone":"+639649704121","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S2 Arkansas ICE","description":"Tube ice plant and wholesale","telephone":"+639618573327","openingHours":"Mo-Su 07:00-19:00"},
+    {"@type":"LocalBusiness","name":"J3S3 Terraverde","description":"Water refilling, ice, laundry","telephone":"+639458727626","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S4 PUC","description":"Water refilling, laundry","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S5 SouthCity","description":"Water refilling","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S6 Adelina","description":"Water refilling","telephone":"+639469851019","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S7 Carmona","description":"Water refilling, ice, laundry","telephone":"+639244840636","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]}
+  ]
+}
+</script>
 <style>
 /* ─── J3S brand tokens ─────────────────────────────────────────
    ink   #0B2436  deep harbor blue (text)
@@ -137,6 +156,34 @@ footer .triband{margin-bottom:18px}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none} }
+
+/* micro-interactions */
+.card,.branch{transition:transform .18s ease, box-shadow .18s ease}
+.card:hover,.branch:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(11,36,54,.10)}
+.branch .order-link a::after{content:'';display:inline}
+a.tel{color:var(--ink);text-decoration:none;font-weight:600}
+a.tel:hover{color:var(--sea);text-decoration:underline}
+
+/* water wave divider */
+.wave{display:block;width:100%;height:44px;color:var(--foam)}
+.wave.flip{transform:scaleY(-1)}
+
+/* GCash directory in contact */
+.gcash-list{display:grid;gap:10px;font-size:14px}
+.gcash-acct{border-left:3px solid var(--ice);padding-left:12px}
+.gcash-acct b{font-variant-numeric:tabular-nums}
+.gcash-acct .who{color:#B9D6E4}
+.gcash-acct .brs{color:#8FB2C4;font-size:13px}
+
+/* sticky mobile order bar */
+.mobile-cta{display:none}
+@media(max-width:700px){
+  .mobile-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:var(--sea);color:#fff;justify-content:center;align-items:center;gap:8px;
+    padding:14px 16px;font-weight:800;font-size:16px;text-decoration:none;
+    box-shadow:0 -4px 18px rgba(11,36,54,.25)}
+  body{padding-bottom:56px}
+}
 </style>
 </head>
 <body>
@@ -182,7 +229,11 @@ footer .triband{margin-bottom:18px}
     </div>
   </section>
 
-  <div class="wrap"><div class="triband" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div></div>
+  <svg class="wave" viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,22 C240,44 480,0 720,16 C960,32 1200,8 1440,22 L1440,44 L0,44 Z" fill="#FFFFFF"/>
+  </svg>
+
+  <div class="wrap" style="background:#fff"><div class="triband" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div></div>
 
   <section id="services">
     <div class="wrap">
@@ -316,21 +367,28 @@ footer .triband{margin-bottom:18px}
       <h2>Contact J3S</h2>
       <div class="contact-box">
         <div>
-          <h3>GCash payments</h3>
-          <p id="gcashLine"><!-- rendered from CONTENT --></p>
+          <h3>GCash accounts</h3>
+          <div class="gcash-list" id="gcashDirectory"><!-- rendered from CONTENT --></div>
+        </div>
+        <div>
+          <h3>Store hours</h3>
+          <p>Daily 7 AM – 7 PM<br>Closed Wednesdays<br>
+          <span style="color:#8FB2C4;font-size:13.5px">Except J3S1 Hawaii &amp; J3S2 Arkansas ICE — open all 7 days</span></p>
         </div>
         <div>
           <h3>Email</h3>
           <p id="emailLine"><!-- rendered from CONTENT --></p>
         </div>
         <div>
-          <h3>Facebook</h3>
+          <h3>Messenger</h3>
           <p id="fbLine"><!-- rendered from CONTENT --></p>
         </div>
       </div>
     </div>
   </section>
 </main>
+
+<a class="mobile-cta" href="#branches">Order Now — find your branch</a>
 
 <footer>
   <div class="wrap">
@@ -352,36 +410,36 @@ var CONTENT = {
 
   branches: [
     { name:"J3S1 Hawaii", area:"Hawaii, Southville, Biñan, Laguna",
-      services:["laundry"], phone:null, hours:"Open daily · 7 AM – 7 PM",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
+      services:["laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:"Open daily · 7 AM – 7 PM",
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S Southville Main", area:"Southville, Biñan, Laguna",
       services:["water","ice","laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S2 Arkansas ICE", area:"Arkansas, Southville, Biñan — ICE plant & wholesale",
       services:["ice"], phone:"0961 857 3327", hours:"Open daily · 7 AM – 7 PM",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
       order:"https://j3s2-arkansas-ice-production.up.railway.app/order" },
     { name:"J3S3 Terraverde", area:"Terraverde, Biñan, Laguna",
       services:["water","ice","laundry"], phone:"0945 872 7626", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
+      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com" },
       order:"https://j3s-terraverde.up.railway.app/order" },
     { name:"J3S4 PUC", area:"PUC Baesa, Caloocan",
       services:["water","laundry"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
       order:"https://j3s4-puc.up.railway.app/order" },
     { name:"J3S5 SouthCity", area:"South City, Biñan, Laguna",
       services:["water"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L.", number:"0928 398 9415" },
+      gcash:{ name:"Jeffrey L.", number:"0928 398 9415", email:"sarlising@yahoo.com" },
       order:"https://j3s5-southcity.up.railway.app/order" },
     { name:"J3S6 Adelina", area:"Adelina, San Pedro, Laguna",
       services:["water"], phone:"0946 985 1019", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Rosalinda L", number:"0935 529 8131" },
+      gcash:{ name:"Rosalinda L", number:"0935 529 8131", email:"jclising@gmail.com" },
       order:"https://j3s6-adelina.up.railway.app/order" },
     { name:"J3S7 Carmona", area:"Carmona Estates, Carmona, Cavite",
       services:["water","ice","laundry"], phone:"0924 484 0636", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
+      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com" },
       order:"https://j3s7-carmona-production.up.railway.app/order" }
   ],
 
@@ -421,14 +479,22 @@ document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(
   var chips = b.services.map(function(s){
     var d = SVC_LABEL[s]; return '<span class="' + d[0] + '">' + d[1] + '</span>';
   }).join('');
-  var phone = b.phone ? esc(b.phone) : '<span class="tba">phone to be added</span>';
+  // phones render as tap-to-call links (multiple numbers split on the dot)
+  var phone = b.phone
+    ? b.phone.split('·').map(function(n){
+        var num = n.trim();
+        return '<a class="tel" href="tel:+63' + num.replace(/\D/g,'').replace(/^0/,'') + '">' + esc(num) + '</a>';
+      }).join(' · ')
+    : '<span class="tba">phone to be added</span>';
   var hours = b.hours ? esc(b.hours) : '<span class="tba">hours to be added</span>';
   return '<div class="branch reveal">' +
     '<h3>' + esc(b.name) + '</h3>' +
     '<div class="area">' + esc(b.area) + '</div>' +
     '<div class="svc-chips">' + chips + '</div>' +
-    '<div class="meta">' + phone + ' · ' + hours + '</div>' +
-    (b.gcash ? '<div class="meta">GCash: ' + esc(b.gcash.name) + ' · ' + esc(b.gcash.number) + '</div>' : '') +
+    '<div class="meta">' + phone + '</div>' +
+    '<div class="meta">' + hours + '</div>' +
+    (b.gcash ? '<div class="meta">GCash: ' + esc(b.gcash.name) + ' · ' + esc(b.gcash.number) +
+               (b.gcash.email ? '<br>' + esc(b.gcash.email) : '') + '</div>' : '') +
     '<div class="order-link"><a href="' + esc(b.order) + '">Order online &rarr;</a></div>' +
   '</div>';
 }).join('');
@@ -438,9 +504,20 @@ document.getElementById('priceRows').innerHTML = CONTENT.prices.map(function(p){
   return '<tr><td>' + esc(p.product) + '</td><td>' + esc(p.service) + '</td><td class="amt">' + amt + '</td></tr>';
 }).join('');
 
-document.getElementById('gcashLine').innerHTML =
-  esc(CONTENT.gcash.name) + '<br>' + esc(CONTENT.gcash.number) +
-  '<br><span style="font-size:13px;color:#8FB2C4">Per-branch GCash numbers are on each branch card.</span>';
+/* GCash directory: group branches by account number */
+var acctMap = {};
+CONTENT.branches.forEach(function(b){
+  if (!b.gcash) return;
+  var k = b.gcash.number;
+  if (!acctMap[k]) acctMap[k] = { name: b.gcash.name, email: b.gcash.email || '', branches: [] };
+  acctMap[k].branches.push(b.name.replace(/^J3S\d*\s*/, '').replace(/^Southville /, ''));
+});
+document.getElementById('gcashDirectory').innerHTML = Object.keys(acctMap).map(function(num){
+  var a = acctMap[num];
+  return '<div class="gcash-acct"><b>' + esc(num) + '</b> <span class="who">· ' + esc(a.name) +
+         (a.email ? ' · ' + esc(a.email) : '') + '</span><br>' +
+         '<span class="brs">' + esc(a.branches.join(', ')) + '</span></div>';
+}).join('');
 
 /* testimonials + photo gallery: render only when content exists */
 var revSec = document.getElementById('reviews');
