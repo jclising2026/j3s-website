@@ -602,7 +602,7 @@ document.getElementById('branchGrid').innerHTML = C.branches.map(function(b, i){
       }).join(' · ')
     : '<span class="tba">phone to be added</span>';
   var hours = b.hours ? esc(b.hours) : '<span class="tba">hours to be added</span>';
-  return '<div class="branch reveal">' +
+  return '<div class="branch reveal in">' +
     '<h3>' + esc(b.name) + '</h3>' +
     '<div class="area">' + esc(b.area) + '</div>' +
     '<div class="svc-chips">' + chips + '</div>' +
