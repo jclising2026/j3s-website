@@ -250,9 +250,9 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
         <a class="btn" href="#prices" style="background:transparent;color:var(--sea);border:2px solid var(--sea)">See prices</a>
       </div>
       <div class="chips" aria-label="Popular prices">
-        <span class="chip">5-Gallon Refill from <b>₱30</b></span>
+        <span class="chip">5-Gallon Refill <b>₱30</b></span>
         <span class="chip">Tube Ice (Whole) <b>₱140</b></span>
-        <span class="chip">Ice 5 Kilos <b>₱40</b></span>
+        <span class="chip">Laundry Wash from <b>₱60</b></span>
         <span class="chip">Bondat <b>₱5</b></span>
       </div>
     </div>
@@ -276,7 +276,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <span class="bar" aria-hidden="true"></span>
           <h3>Water Refilling</h3>
           <p>Purified drinking water in 5-gallon containers. Walk in with your container or have it delivered and picked up by our drivers.</p>
-          <p class="price">From ₱30 per 5-gallon refill · delivery available</p>
+          <p class="price">₱30 per 5-gallon refill · delivery available</p>
         </div>
         <div class="card svc-ice reveal">
           <span class="bar" aria-hidden="true"></span>
@@ -288,7 +288,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <span class="bar" aria-hidden="true"></span>
           <h3>Laundry</h3>
           <p>Self-service or full wash-dry-fold with pickup and delivery on select branches. Your clothes back fresh, folded, and on time.</p>
-          <p class="price">Ask your branch for load pricing</p>
+          <p class="price">Wash from ₱60 · Dry from ₱75 · per 8 kg load</p>
         </div>
       </div>
     </div>
@@ -312,7 +312,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <tbody id="priceRows"><!-- rendered from CONTENT --></tbody>
         </table>
       </div>
-      <p class="price-note">Walk-in prices shown. Delivery, dealer, and wholesale pricing available — ask your branch or order online.</p>
+      <p class="price-note">Regular customer prices shown; laundry prices are starting rates. Dealer and wholesale pricing available case-to-case — ask your branch or order online.</p>
     </div>
   </section>
 
@@ -547,7 +547,8 @@ var CONTENT = {
     { product:"Ice 20 Kilos",              service:"Ice",    price:100 },
     { product:"Whole Block",               service:"Ice",    price:140 },
     { product:"Mr Freeze Tube ICE",        service:"Ice",    price:180 },
-    { product:"Wash-Dry-Fold",             service:"Laundry", price:null }
+    { product:"Laundry Wash (per 8 kg load)", service:"Laundry", price:60 },
+    { product:"Laundry Dry (per 8 kg load)",  service:"Laundry", price:75 }
   ]
 };
 /* ══════════════════ end of business information ══════════════════ */

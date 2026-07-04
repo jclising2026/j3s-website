@@ -17,7 +17,8 @@ first comment).
 Tubig. Yelo. Labada. 💧🧊👕
 Lahat ng branch namin, prices, at contact numbers — nasa isang website na!
 
-✅ Refill from ₱30 (5 gallons)
+✅ Refill ₱30 (5 gallons)
+✅ Laundry wash from ₱60 (8 kg load)
 ✅ Yelo starting ₱5
 ✅ Wash-dry-fold laundry
 ✅ Cash o GCash
@@ -39,7 +40,7 @@ at mga container na inaalagaan — hindi binibilad sa araw.
 
 Kasi ang tubig, kalusugan ng pamilya mo.
 
-From ₱30 lang ang 5-gallon refill. Delivery available!
+₱30 lang ang 5-gallon refill. Delivery available!
 👉 https://jclising2026.github.io/j3s-website/
 
 #SafeWater #WaterRefilling #J3S #Binan
@@ -71,6 +72,23 @@ at tine-track namin ang bawat reklamo hanggang maayos.
 Kasi ang serbisyo, pinapabuti — hindi ipinagtatanggol. 💙
 
 👉 https://jclising2026.github.io/j3s-website/ (Feedback section)
+
+---
+
+## Caption 5 — Laundry angle
+
+Pagod ka na ba maglaba? Kami na! 👕✨
+
+Sa J3S Laundry:
+🧺 Wash — as low as ₱60 per 8 kg load
+🌀 Dry — as low as ₱75 per 8 kg load
+📍 Southville Main · Hawaii · Terraverde · PUC · Carmona
+
+Dalhin mo lang, o ipa-pickup mo pa — babalik na mabango at nakatiklop. 😌
+
+👉 https://jclising2026.github.io/j3s-website/
+
+#Laundry #WashDryFold #J3S #Binan #Carmona
 
 ---
 
