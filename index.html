@@ -175,6 +175,21 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
 .gcash-acct .who{color:#B9D6E4}
 .gcash-acct .brs{color:#8FB2C4;font-size:13px}
 
+/* GCash QR modal */
+.qr-btn{display:inline-block;margin-top:6px;background:#E3F0F7;color:var(--sea);font-weight:700;
+  font-size:13px;border:0;border-radius:999px;padding:6px 14px;cursor:pointer}
+.qr-btn:hover{background:#CFE5F1}
+.qr-overlay{display:none;position:fixed;inset:0;z-index:80;background:rgba(11,36,54,.6);
+  align-items:center;justify-content:center;padding:20px}
+.qr-overlay.open{display:flex}
+.qr-modal{background:#fff;border-radius:18px;max-width:360px;width:100%;padding:26px;text-align:center;position:relative}
+.qr-modal h3{font-size:18px;font-weight:800;margin-bottom:2px}
+.qr-modal .num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--sea)}
+.qr-modal img{width:100%;max-width:260px;border-radius:12px;border:1px solid var(--line);margin:14px auto}
+.qr-modal .close-x{position:absolute;top:10px;right:14px;background:none;border:0;font-size:26px;
+  color:var(--mist);cursor:pointer;line-height:1}
+.qr-modal .hint{font-size:13px;color:var(--mist)}
+
 /* sticky mobile order bar */
 .mobile-cta{display:none}
 @media(max-width:700px){
@@ -388,6 +403,16 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   </section>
 </main>
 
+<div class="qr-overlay" id="qrOverlay" role="dialog" aria-modal="true" aria-label="GCash QR code">
+  <div class="qr-modal">
+    <button type="button" class="close-x" onclick="closeQr()" aria-label="Close">&times;</button>
+    <h3 id="qrTitle"></h3>
+    <div class="num" id="qrNumber"></div>
+    <div id="qrImageArea"></div>
+    <p class="hint" id="qrHint"></p>
+  </div>
+</div>
+
 <a class="mobile-cta" href="#branches">Order Now — find your branch</a>
 
 <footer>
@@ -411,35 +436,35 @@ var CONTENT = {
   branches: [
     { name:"J3S1 Hawaii", area:"Hawaii, Southville, Biñan, Laguna",
       services:["laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:"Open daily · 7 AM – 7 PM",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S Southville Main", area:"Southville, Biñan, Laguna",
       services:["water","ice","laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S2 Arkansas ICE", area:"Arkansas, Southville, Biñan — ICE plant & wholesale",
       services:["ice"], phone:"0961 857 3327", hours:"Open daily · 7 AM – 7 PM",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s2-arkansas-ice-production.up.railway.app/order" },
     { name:"J3S3 Terraverde", area:"Terraverde, Biñan, Laguna",
       services:["water","ice","laundry"], phone:"0945 872 7626", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s-terraverde.up.railway.app/order" },
     { name:"J3S4 PUC", area:"PUC Baesa, Caloocan",
       services:["water","laundry"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0935 474 6369", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s4-puc.up.railway.app/order" },
     { name:"J3S5 SouthCity", area:"South City, Biñan, Laguna",
       services:["water"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L.", number:"0928 398 9415", email:"sarlising@yahoo.com" },
+      gcash:{ name:"Jeffrey L.", number:"0928 398 9415", email:"sarlising@yahoo.com", qr:null },
       order:"https://j3s5-southcity.up.railway.app/order" },
     { name:"J3S6 Adelina", area:"Adelina, San Pedro, Laguna",
       services:["water"], phone:"0946 985 1019", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Rosalinda L", number:"0935 529 8131", email:"jclising@gmail.com" },
+      gcash:{ name:"Rosalinda L", number:"0935 529 8131", email:"jclising@gmail.com", qr:null },
       order:"https://j3s6-adelina.up.railway.app/order" },
     { name:"J3S7 Carmona", area:"Carmona Estates, Carmona, Cavite",
       services:["water","ice","laundry"], phone:"0924 484 0636", hours:"7 AM – 7 PM · Closed Wednesdays",
-      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com" },
+      gcash:{ name:"Jeffrey L", number:"0956 643 5732", email:"jcl_rock@yahoo.com", qr:null },
       order:"https://j3s7-carmona-production.up.railway.app/order" }
   ],
 
@@ -475,7 +500,7 @@ function peso(n){ return '₱' + Number(n).toLocaleString('en-PH'); }
 
 var SVC_LABEL = { water:['sc-water','WATER'], ice:['sc-ice','ICE'], laundry:['sc-laundry','LAUNDRY'] };
 
-document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(b){
+document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(b, i){
   var chips = b.services.map(function(s){
     var d = SVC_LABEL[s]; return '<span class="' + d[0] + '">' + d[1] + '</span>';
   }).join('');
@@ -494,7 +519,8 @@ document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(
     '<div class="meta">' + phone + '</div>' +
     '<div class="meta">' + hours + '</div>' +
     (b.gcash ? '<div class="meta">GCash: ' + esc(b.gcash.name) + ' · ' + esc(b.gcash.number) +
-               (b.gcash.email ? '<br>' + esc(b.gcash.email) : '') + '</div>' : '') +
+               (b.gcash.email ? '<br>' + esc(b.gcash.email) : '') + '</div>' +
+               '<div><button type="button" class="qr-btn" onclick="openQr(' + i + ')">Scan GCash QR</button></div>' : '') +
     '<div class="order-link"><a href="' + esc(b.order) + '">Order online &rarr;</a></div>' +
   '</div>';
 }).join('');
@@ -545,6 +571,30 @@ document.getElementById('fbLine').innerHTML = !CONTENT.facebook
 
 document.getElementById('footerYear').textContent =
   '© ' + new Date().getFullYear() + ' J3S. All prices in Philippine pesos.';
+
+/* GCash QR modal: shows the branch account's QR image when provided,
+   or clear pay-by-number instructions until the QR is added */
+function openQr(i) {
+  var b = CONTENT.branches[i];
+  if (!b || !b.gcash) return;
+  document.getElementById('qrTitle').textContent = b.name + ' — GCash';
+  document.getElementById('qrNumber').textContent = b.gcash.name + ' · ' + b.gcash.number;
+  var area = document.getElementById('qrImageArea');
+  var hint = document.getElementById('qrHint');
+  if (b.gcash.qr) {
+    area.innerHTML = '<img src="' + esc(b.gcash.qr) + '" alt="GCash QR code for ' + esc(b.name) + '">';
+    hint.textContent = 'Open GCash, tap Scan QR, and point your camera here. Put the reference number on your order.';
+  } else {
+    area.innerHTML = '';
+    hint.innerHTML = 'QR image coming soon. For now, open GCash and use <b>Send Money</b> to the number above — then put the reference number on your order.';
+  }
+  document.getElementById('qrOverlay').classList.add('open');
+}
+function closeQr() { document.getElementById('qrOverlay').classList.remove('open'); }
+document.getElementById('qrOverlay').addEventListener('click', function(e){
+  if (e.target === this) closeQr();
+});
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeQr(); });
 
 /* scroll reveal — no-op when reduced motion is preferred */
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
