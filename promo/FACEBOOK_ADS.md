@@ -17,7 +17,7 @@ first comment).
 Tubig. Yelo. Labada. 💧🧊👕
 Lahat ng branch namin, prices, at contact numbers — nasa isang website na!
 
-✅ Refill ₱25 (5 gallons)
+✅ Refill from ₱30 (5 gallons)
 ✅ Yelo starting ₱5
 ✅ Wash-dry-fold laundry
 ✅ Cash o GCash
@@ -39,7 +39,7 @@ at mga container na inaalagaan — hindi binibilad sa araw.
 
 Kasi ang tubig, kalusugan ng pamilya mo.
 
-25 pesos lang ang 5-gallon refill. Delivery available!
+From ₱30 lang ang 5-gallon refill. Delivery available!
 👉 https://jclising2026.github.io/j3s-website/
 
 #SafeWater #WaterRefilling #J3S #Binan
@@ -83,7 +83,7 @@ Kasi ang serbisyo, pinapabuti — hindi ipinagtatanggol. 💙
 3. (6–9s)  Laundry: folded fresh clothes stacking up.
            Text overlay: "Labada."
 4. (9–14s) Staff smiling / storefront / tricycle delivery leaving.
-           Text overlay: "Linis. Lamig. Bango. — J3S"
+           Text overlay: "Kumpleto ka na sa J3S!"
 5. (14–20s) End card: use `j3s-reel-story-1080x1920.png`
            Voice/text: "8 branches. Open 7AM–7PM. Order online — scan o
            i-click ang link sa comments!"
