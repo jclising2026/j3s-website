@@ -10,7 +10,7 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "J3S Water Refilling, Ice & Laundry",
-  "email": "jcl_rock@yahoo.com",
+  "email": "j3sbusiness@gmail.com",
   "areaServed": ["Biñan, Laguna", "Carmona, Cavite", "Baesa, Caloocan", "San Pedro, Laguna"],
   "department": [
     {"@type":"LocalBusiness","name":"J3S1 Hawaii","description":"Laundry","telephone":"+639649704121","openingHours":"Mo-Su 07:00-19:00"},
@@ -175,6 +175,19 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
 .gcash-acct .who{color:#B9D6E4}
 .gcash-acct .brs{color:#8FB2C4;font-size:13px}
 
+/* feedback form */
+.fb-form{max-width:640px;display:flex;flex-direction:column;gap:14px}
+.fb-form label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:var(--ink);flex:1}
+.fb-form input,.fb-form select,.fb-form textarea{
+  font:inherit;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.fb-form textarea{resize:vertical}
+.fb-form input:focus,.fb-form select:focus,.fb-form textarea:focus{outline:3px solid rgba(14,94,138,.25);border-color:var(--sea)}
+.fb-row{display:flex;gap:14px;flex-wrap:wrap}
+.fb-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fb-status{font-size:14px;font-weight:600}
+.fb-status.ok{color:#2F9E44}
+.fb-status.err{color:#C92A2A}
+
 /* GCash QR modal */
 .qr-btn{display:inline-block;margin-top:6px;background:#E3F0F7;color:var(--sea);font-weight:700;
   font-size:13px;border:0;border-radius:999px;padding:6px 14px;cursor:pointer}
@@ -214,6 +227,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#branches">Branches</a>
       <a href="#prices">Prices</a>
       <a href="#story">Our Story</a>
+      <a href="#feedback">Feedback</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn" href="#branches">Order Now</a>
@@ -376,6 +390,49 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     </div>
   </section>
 
+  <section id="feedback" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <p class="eyebrow">We're listening</p>
+      <h2>Review, complaint, or request — tell us</h2>
+      <p style="color:var(--mist);max-width:52ch;margin-bottom:22px">Good or bad, your message goes straight
+      to the owners. Complaints get tracked until they're resolved.</p>
+      <form id="fbForm" class="fb-form" novalidate>
+        <div class="fb-row">
+          <label>Type
+            <select id="fbType" required>
+              <option value="review">Review / Compliment</option>
+              <option value="complaint">Complaint</option>
+              <option value="request">Request</option>
+              <option value="suggestion">Suggestion</option>
+            </select>
+          </label>
+          <label>Branch
+            <select id="fbBranch"></select>
+          </label>
+          <label id="fbRatingWrap">Rating
+            <select id="fbRating">
+              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; Excellent</option>
+              <option value="4">&#9733;&#9733;&#9733;&#9733; Good</option>
+              <option value="3">&#9733;&#9733;&#9733; Okay</option>
+              <option value="2">&#9733;&#9733; Poor</option>
+              <option value="1">&#9733; Bad</option>
+            </select>
+          </label>
+        </div>
+        <div class="fb-row">
+          <label>Your name (optional)<input type="text" id="fbName" maxlength="120" autocomplete="name"></label>
+          <label>Phone or email (optional)<input type="text" id="fbContact" maxlength="120" autocomplete="tel"></label>
+        </div>
+        <label>Message<textarea id="fbMessage" rows="4" maxlength="2000" required placeholder="Tell us what happened, or what you need..."></textarea></label>
+        <input type="text" id="fbWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="fb-actions">
+          <button type="submit" class="btn" id="fbSubmit">Send Feedback</button>
+          <span id="fbStatus" class="fb-status" role="status"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section id="contact">
     <div class="wrap">
       <p class="eyebrow">Talk to us</p>
@@ -430,7 +487,8 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
    ══════════════════════════════════════════════════════════════════ */
 var CONTENT = {
   gcash:   { name: "Jeffrey L", number: "0935 474 6369" },
-  email:   "jcl_rock@yahoo.com",
+  email:   "j3sbusiness@gmail.com",
+  feedbackApi: "https://j3s-southville-main.up.railway.app/api/public/feedback",
   facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
 
   branches: [
@@ -571,6 +629,69 @@ document.getElementById('fbLine').innerHTML = !CONTENT.facebook
 
 document.getElementById('footerYear').textContent =
   '© ' + new Date().getFullYear() + ' J3S. All prices in Philippine pesos.';
+
+/* Feedback form: submits to the J3S system's public feedback inbox.
+   If the network call fails, falls back to a prefilled email. */
+(function(){
+  var branchSel = document.getElementById('fbBranch');
+  branchSel.innerHTML = '<option value="">General / not sure</option>' +
+    CONTENT.branches.map(function(b){ return '<option value="' + esc(b.name) + '">' + esc(b.name) + '</option>'; }).join('');
+
+  var typeSel = document.getElementById('fbType');
+  var ratingWrap = document.getElementById('fbRatingWrap');
+  function syncRating(){ ratingWrap.style.display = (typeSel.value === 'review') ? '' : 'none'; }
+  typeSel.addEventListener('change', syncRating);
+  syncRating();
+
+  document.getElementById('fbForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var status = document.getElementById('fbStatus');
+    var btn = document.getElementById('fbSubmit');
+    var msg = document.getElementById('fbMessage').value.trim();
+    if (msg.length < 5) {
+      status.className = 'fb-status err';
+      status.textContent = 'Please write at least a short message.';
+      return;
+    }
+    var payload = {
+      feedback_type: typeSel.value,
+      branch_name: branchSel.value,
+      customer_name: document.getElementById('fbName').value.trim(),
+      contact: document.getElementById('fbContact').value.trim(),
+      message: msg,
+      rating: typeSel.value === 'review' ? document.getElementById('fbRating').value : null,
+      website: document.getElementById('fbWebsite').value
+    };
+    btn.disabled = true;
+    status.className = 'fb-status';
+    status.textContent = 'Sending...';
+    fetch(CONTENT.feedbackApi, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, d: d}; }); })
+    .then(function(res){
+      if (res.ok && res.d.success) {
+        document.getElementById('fbForm').innerHTML =
+          '<p style="font-size:18px;font-weight:800;color:#2F9E44">Salamat! Your feedback was received.</p>' +
+          '<p style="color:var(--mist)">The owners read every message. Complaints are tracked until resolved.</p>';
+      } else {
+        throw new Error(res.d.error || 'Submission failed');
+      }
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      var mail = 'mailto:' + CONTENT.email +
+        '?subject=' + encodeURIComponent('[' + payload.feedback_type.toUpperCase() + '] ' + (payload.branch_name || 'J3S')) +
+        '&body=' + encodeURIComponent(payload.message + '\n\nFrom: ' + (payload.customer_name || 'anonymous') +
+                                      (payload.contact ? ' (' + payload.contact + ')' : ''));
+      status.className = 'fb-status err';
+      status.innerHTML = 'Could not send (' + esc(err.message) + '). ' +
+        '<a href="' + mail + '">Send it by email instead</a>.';
+    });
+  });
+})();
 
 /* GCash QR modal: shows the branch account's QR image when provided,
    or clear pay-by-number instructions until the QR is added */
