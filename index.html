@@ -597,6 +597,15 @@ function esc(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
                   .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+/* Only allow safe URL schemes into href/src — blocks javascript:/data:
+   even if a bad value slipped past the server-side content scrubber. */
+function safeHref(u){
+  if (!u) return '#';
+  var s = String(u).trim(), low = s.toLowerCase();
+  if (low.indexOf('http://')===0 || low.indexOf('https://')===0 ||
+      low.indexOf('tel:')===0 || low.indexOf('mailto:')===0) return esc(s);
+  return '#';
+}
 function peso(n){ return '₱' + Number(n).toLocaleString('en-PH'); }
 
 var SVC_LABEL = { water:['sc-water','WATER'], ice:['sc-ice','ICE'], laundry:['sc-laundry','LAUNDRY'] };
@@ -636,7 +645,7 @@ document.getElementById('branchGrid').innerHTML = C.branches.map(function(b, i){
     (b.gcash ? '<div class="meta">GCash: ' + esc(b.gcash.name) + ' · ' + esc(b.gcash.number) +
                (b.gcash.email ? '<br>' + esc(b.gcash.email) : '') + '</div>' +
                '<div><button type="button" class="qr-btn" onclick="openQr(' + i + ')">Scan GCash QR</button></div>' : '') +
-    '<div class="order-link"><a href="' + esc(b.order) + '">Order online &rarr;</a></div>' +
+    '<div class="order-link"><a href="' + safeHref(b.order) + '">Order online &rarr;</a></div>' +
   '</div>';
 }).join('');
 
