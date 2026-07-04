@@ -348,19 +348,19 @@ footer .triband{margin-bottom:18px}
 var CONTENT = {
   gcash:   { name: "Jeffrey L", number: "0935 474 6369" },
   email:   "jcl_rock@yahoo.com",
-  facebook: null,                    // e.g. "https://facebook.com/J3Swater"
+  facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
 
   branches: [
     { name:"J3S Southville Main", area:"Southville, Biñan, Laguna",
-      services:["water","ice","laundry"], phone:null, hours:null,
+      services:["water","ice","laundry"], phone:"0964 970 4121 · 0946 949 9273", hours:null,
       gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
       order:"https://j3s-southville-main.up.railway.app/order" },
     { name:"J3S2 Arkansas ICE", area:"Arkansas, Southville, Biñan — ICE plant & wholesale",
-      services:["ice"], phone:null, hours:null,
+      services:["ice"], phone:"0961 857 3327", hours:null,
       gcash:{ name:"Jeffrey L", number:"0935 474 6369" },
       order:"https://j3s2-arkansas-ice-production.up.railway.app/order" },
     { name:"J3S3 Terraverde", area:"Terraverde, Biñan, Laguna",
-      services:["water","ice","laundry"], phone:null, hours:null,
+      services:["water","ice","laundry"], phone:"0945 872 7626", hours:null,
       gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
       order:"https://j3s-terraverde.up.railway.app/order" },
     { name:"J3S4 PUC", area:"PUC Baesa, Caloocan",
@@ -372,11 +372,11 @@ var CONTENT = {
       gcash:{ name:"Jeffrey L.", number:"0928 398 9415" },
       order:"https://j3s5-southcity.up.railway.app/order" },
     { name:"J3S6 Adelina", area:"Adelina, San Pedro, Laguna",
-      services:["water"], phone:null, hours:null,
+      services:["water"], phone:"0946 985 1019", hours:null,
       gcash:{ name:"Rosalinda L", number:"0935 529 8131" },
       order:"https://j3s6-adelina.up.railway.app/order" },
-    { name:"J3S7 Carmona", area:"Carmona, Cavite",
-      services:["water","ice","laundry"], phone:null, hours:null,
+    { name:"J3S7 Carmona", area:"Carmona Estates, Carmona, Cavite",
+      services:["water","ice","laundry"], phone:"0924 484 0636", hours:null,
       gcash:{ name:"Jeffrey L", number:"0956 643 5732" },
       order:"https://j3s7-carmona-production.up.railway.app/order" }
   ],
@@ -456,9 +456,11 @@ if (CONTENT.photos.length && galSec) {
 } else if (galSec) { galSec.style.display = 'none'; }
 document.getElementById('emailLine').innerHTML =
   '<a href="mailto:' + esc(CONTENT.email) + '">' + esc(CONTENT.email) + '</a>';
-document.getElementById('fbLine').innerHTML = CONTENT.facebook
-  ? '<a href="' + esc(CONTENT.facebook) + '">' + esc(CONTENT.facebook) + '</a>'
-  : '<span class="tba">Facebook page link to be added</span>';
+document.getElementById('fbLine').innerHTML = !CONTENT.facebook
+  ? '<span class="tba">Facebook page link to be added</span>'
+  : (CONTENT.facebook.indexOf('http') === 0
+      ? '<a href="' + esc(CONTENT.facebook) + '">' + esc(CONTENT.facebook) + '</a>'
+      : 'Message us on Messenger:<br><b>' + esc(CONTENT.facebook) + '</b>');
 
 document.getElementById('footerYear').textContent =
   '© ' + new Date().getFullYear() + ' J3S. All prices in Philippine pesos.';
