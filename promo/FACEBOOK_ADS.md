@@ -1,6 +1,6 @@
 # J3S Facebook / Messenger / Reels Ad Kit
 
-Website: https://jclising2026.github.io/j3s-website/
+Website: https://j3sthebest.com/  (old github.io link redirects here)
 Images: `j3s-fb-post-1080.png` (posts), `j3s-reel-story-1080x1920.png` (Reels/Stories)
 
 Facebook makes the URL clickable automatically when pasted in a caption.
@@ -14,7 +14,8 @@ first comment).
 
 🚨 LIVE NA ANG J3S WEBSITE! 🚨
 
-Tubig. Yelo. Labada. 💧🧊👕
+Tubig? Yelo? Labada? — J3S na! 💧🧊👕
+Da Best sa Bawat Bahay!
 Lahat ng branch namin, prices, at contact numbers — nasa isang website na!
 
 ✅ Refill ₱30 (5 gallons)
@@ -25,7 +26,7 @@ Lahat ng branch namin, prices, at contact numbers — nasa isang website na!
 ✅ 8 branches — Biñan · Carmona · Caloocan
 🕖 Open 7AM–7PM
 
-Order na dito 👉 https://jclising2026.github.io/j3s-website/
+Order na dito 👉 https://j3sthebest.com/
 
 #J3S #WaterRefillingStation #TubeIce #Laundry #Binan #Carmona #Caloocan
 
@@ -41,7 +42,7 @@ at mga container na inaalagaan — hindi binibilad sa araw.
 Kasi ang tubig, kalusugan ng pamilya mo.
 
 ₱30 lang ang 5-gallon refill. Delivery available!
-👉 https://jclising2026.github.io/j3s-website/
+👉 https://j3sthebest.com/
 
 #SafeWater #WaterRefilling #J3S #Binan
 
@@ -56,7 +57,7 @@ Mula sariling ice plant namin (J3S2 Arkansas ICE — open 7 days a week!):
 • 20 kilos ₱100 • Whole block ₱140
 • Wholesale para sa tindahan at events
 
-Order online, bayad cash o GCash 👉 https://jclising2026.github.io/j3s-website/
+Order online, bayad cash o GCash 👉 https://j3sthebest.com/
 
 #TubeIce #YeloWholesale #J3S #Binan #Carmona
 
@@ -71,7 +72,7 @@ at tine-track namin ang bawat reklamo hanggang maayos.
 
 Kasi ang serbisyo, pinapabuti — hindi ipinagtatanggol. 💙
 
-👉 https://jclising2026.github.io/j3s-website/ (Feedback section)
+👉 https://j3sthebest.com/ (Feedback section)
 
 ---
 
@@ -86,7 +87,7 @@ Sa J3S Laundry:
 
 Dalhin mo lang, o ipa-pickup mo pa — babalik na mabango at nakatiklop. 😌
 
-👉 https://jclising2026.github.io/j3s-website/
+👉 https://j3sthebest.com/
 
 #Laundry #WashDryFold #J3S #Binan #Carmona
 
@@ -101,7 +102,7 @@ Dalhin mo lang, o ipa-pickup mo pa — babalik na mabango at nakatiklop. 😌
 3. (6–9s)  Laundry: folded fresh clothes stacking up.
            Text overlay: "Labada."
 4. (9–14s) Staff smiling / storefront / tricycle delivery leaving.
-           Text overlay: "Kumpleto ka na sa J3S!"
+           Text overlay: "J3S na! — Da Best sa Bawat Bahay"
 5. (14–20s) End card: use `j3s-reel-story-1080x1920.png`
            Voice/text: "8 branches. Open 7AM–7PM. Order online — scan o
            i-click ang link sa comments!"

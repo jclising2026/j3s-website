@@ -9,15 +9,15 @@
 <!-- Open Graph: controls how the link looks when shared on Facebook/Messenger -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="J3S">
-<meta property="og:title" content="J3S — Tubig. Yelo. Labada. Kumpleto ka na sa J3S!">
-<meta property="og:description" content="Refill ₱30 · Yelo from ₱5 · Labada from ₱60. 8 branches sa Biñan, Carmona, at Caloocan. Open 7AM–7PM. Order online, cash o GCash!">
+<meta property="og:title" content="J3S — Tubig? Yelo? Labada? J3S na!">
+<meta property="og:description" content="Da Best sa Bawat Bahay. Refill ₱30 · Yelo from ₱5 · Labada from ₱60. 8 branches sa Biñan, Carmona, at Caloocan. Open 7AM–7PM. Cash o GCash!">
 <meta property="og:url" content="https://jclising2026.github.io/j3s-website/">
 <meta property="og:image" content="https://jclising2026.github.io/j3s-website/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_PH">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="J3S — Tubig. Yelo. Labada.">
+<meta name="twitter:title" content="J3S — Tubig? Yelo? Labada? J3S na!">
 <meta name="twitter:description" content="Refill ₱30 · Yelo from ₱5 · Labada from ₱60 · 8 branches · Open 7AM–7PM">
 <meta name="twitter:image" content="https://jclising2026.github.io/j3s-website/og-image.png">
 <script type="application/ld+json">
@@ -259,7 +259,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       </h1>
       <p class="hero-sub">Clean purified water, fresh tube ice, and wash-dry-fold laundry —
         delivered by your neighborhood J3S branch.</p>
-      <p class="hero-note">8 branches across Biñan Laguna, Carmona Cavite &amp; Baesa Caloocan · Open 7 AM – 7 PM · Cash or GCash</p>
+      <p class="hero-note">Da Best sa Bawat Bahay · 8 branches across Biñan, Carmona &amp; Caloocan · Open 7 AM – 7 PM · Cash or GCash</p>
       <div class="cta-row">
         <a class="btn sun" href="#branches">Find your branch</a>
         <a class="btn" href="#prices" style="background:transparent;color:var(--sea);border:2px solid var(--sea)">See prices</a>
@@ -282,10 +282,10 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   <section id="services">
     <div class="wrap">
       <p class="eyebrow">Serbisyong J3S</p>
-      <h2>Kumpleto ka na sa J3S!</h2>
-      <p style="color:var(--mist);max-width:56ch;margin:-4px 0 22px;font-size:17px">
-        Malinis na inuming tubig. Malamig na yelo araw-araw. Labadang mabango ang balik.
-        Everything your home needs — from your neighborhood J3S.</p>
+      <h2 id="svcHeading">Tubig? Yelo? Labada? — J3S na!</h2>
+      <p id="svcSubline" style="color:var(--mist);max-width:56ch;margin:-4px 0 22px;font-size:17px">
+        Da Best sa Bawat Bahay — malinis na inuming tubig, malamig na yelo araw-araw,
+        at labadang mabango ang balik.</p>
       <div class="cards">
         <div class="card svc-water reveal">
           <span class="bar" aria-hidden="true"></span>
@@ -577,9 +577,23 @@ function peso(n){ return '₱' + Number(n).toLocaleString('en-PH'); }
 
 var SVC_LABEL = { water:['sc-water','WATER'], ice:['sc-ice','ICE'], laundry:['sc-laundry','LAUNDRY'] };
 
-document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(b, i){
-  var chips = b.services.map(function(s){
-    var d = SVC_LABEL[s]; return '<span class="' + d[0] + '">' + d[1] + '</span>';
+/* All rendering lives in renderSite() so the page can draw twice:
+   instantly with the baked-in CONTENT above, then again with the
+   owner-published content fetched from the J3S system. */
+var CURRENT = CONTENT;
+function renderSite(C){
+CURRENT = C;
+
+if (C.site && C.site.heading) {
+  var _sh = document.getElementById('svcHeading'); if (_sh) _sh.textContent = C.site.heading;
+}
+if (C.site && C.site.subline) {
+  var _ss = document.getElementById('svcSubline'); if (_ss) _ss.textContent = C.site.subline;
+}
+
+document.getElementById('branchGrid').innerHTML = C.branches.map(function(b, i){
+  var chips = (b.services || []).map(function(s){
+    var d = SVC_LABEL[s]; return d ? '<span class="' + d[0] + '">' + d[1] + '</span>' : '';
   }).join('');
   // phones render as tap-to-call links (multiple numbers split on the dot)
   var phone = b.phone
@@ -602,15 +616,15 @@ document.getElementById('branchGrid').innerHTML = CONTENT.branches.map(function(
   '</div>';
 }).join('');
 
-document.getElementById('priceRows').innerHTML = CONTENT.prices.map(function(p){
-  var amt = (p.price === null) ? 'ask branch' : peso(p.price);
+document.getElementById('priceRows').innerHTML = C.prices.map(function(p){
+  var amt = (p.price === null || p.price === undefined) ? 'ask branch' : peso(p.price);
   return '<tr><td>' + esc(p.product) + '</td><td>' + esc(p.service) + '</td><td class="amt">' + amt + '</td></tr>';
 }).join('');
 
 /* GCash directory: group branches by account number */
 var acctMap = {};
-CONTENT.branches.forEach(function(b){
-  if (!b.gcash) return;
+C.branches.forEach(function(b){
+  if (!b.gcash || !b.gcash.number) return;
   var k = b.gcash.number;
   if (!acctMap[k]) acctMap[k] = { name: b.gcash.name, email: b.gcash.email || '', branches: [] };
   acctMap[k].branches.push(b.name.replace(/^J3S\d*\s*/, '').replace(/^Southville /, ''));
@@ -624,27 +638,54 @@ document.getElementById('gcashDirectory').innerHTML = Object.keys(acctMap).map(f
 
 /* testimonials + photo gallery: render only when content exists */
 var revSec = document.getElementById('reviews');
-if (CONTENT.testimonials.length && revSec) {
-  document.getElementById('reviewCards').innerHTML = CONTENT.testimonials.map(function(t){
-    return '<div class="card reveal"><span class="bar" style="background:var(--sun)" aria-hidden="true"></span>' +
+var _testi = C.testimonials || [];
+if (_testi.length && revSec) {
+  revSec.style.display = '';
+  document.getElementById('reviewCards').innerHTML = _testi.map(function(t){
+    return '<div class="card reveal in"><span class="bar" style="background:var(--sun)" aria-hidden="true"></span>' +
       '<p style="color:var(--ink);font-size:16px">&ldquo;' + esc(t.quote) + '&rdquo;</p>' +
       '<p class="price" style="color:var(--mist)">' + esc(t.name) + (t.area ? ' · ' + esc(t.area) : '') + '</p></div>';
   }).join('');
 } else if (revSec) { revSec.style.display = 'none'; }
 
 var galSec = document.getElementById('gallery');
-if (CONTENT.photos.length && galSec) {
-  document.getElementById('galleryGrid').innerHTML = CONTENT.photos.map(function(p){
+var _photos = C.photos || [];
+if (_photos.length && galSec) {
+  galSec.style.display = '';
+  document.getElementById('galleryGrid').innerHTML = _photos.map(function(p){
     return '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || '') + '" loading="lazy" style="width:100%;border-radius:14px;border:1px solid var(--line)">';
   }).join('');
 } else if (galSec) { galSec.style.display = 'none'; }
 document.getElementById('emailLine').innerHTML =
-  '<a href="mailto:' + esc(CONTENT.email) + '">' + esc(CONTENT.email) + '</a>';
-document.getElementById('fbLine').innerHTML = !CONTENT.facebook
+  '<a href="mailto:' + esc(C.email) + '">' + esc(C.email) + '</a>';
+document.getElementById('fbLine').innerHTML = !C.facebook
   ? '<span class="tba">Facebook page link to be added</span>'
-  : (CONTENT.facebook.indexOf('http') === 0
-      ? '<a href="' + esc(CONTENT.facebook) + '">' + esc(CONTENT.facebook) + '</a>'
-      : 'Message us on Messenger:<br><b>' + esc(CONTENT.facebook) + '</b>');
+  : (C.facebook.indexOf('http') === 0
+      ? '<a href="' + esc(C.facebook) + '">' + esc(C.facebook) + '</a>'
+      : 'Message us on Messenger:<br><b>' + esc(C.facebook) + '</b>');
+
+/* keep the feedback form's branch dropdown in sync */
+var _fbSel = document.getElementById('fbBranch');
+if (_fbSel) {
+  _fbSel.innerHTML = '<option value="">General / not sure</option>' +
+    C.branches.map(function(b){ return '<option value="' + esc(b.name) + '">' + esc(b.name) + '</option>'; }).join('');
+}
+}
+renderSite(CONTENT);
+
+/* Live content: the owner edits the website from the J3S system
+   (Website Content page); this fetch picks up their published version.
+   If the system is unreachable, the baked-in content above stays. */
+fetch('https://j3s-southville-main.up.railway.app/api/public/website-content', {cache: 'no-store'})
+  .then(function(r){ if (!r.ok) throw new Error('http'); return r.json(); })
+  .then(function(d){
+    if (d && d.content && d.content.branches && d.content.branches.length) {
+      var c = d.content;
+      c.feedbackApi = CONTENT.feedbackApi;
+      renderSite(c);
+    }
+  })
+  .catch(function(){ /* offline / app restarting — keep baked content */ });
 
 document.getElementById('footerYear').textContent =
   '© ' + new Date().getFullYear() + ' J3S. All prices in Philippine pesos.';
@@ -715,7 +756,7 @@ document.getElementById('footerYear').textContent =
 /* GCash QR modal: shows the branch account's QR image when provided,
    or clear pay-by-number instructions until the QR is added */
 function openQr(i) {
-  var b = CONTENT.branches[i];
+  var b = CURRENT.branches[i];
   if (!b || !b.gcash) return;
   document.getElementById('qrTitle').textContent = b.name + ' — GCash';
   document.getElementById('qrNumber').textContent = b.gcash.name + ' · ' + b.gcash.number;
