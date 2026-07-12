@@ -260,6 +260,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#branches">Branches</a>
       <a href="#prices">Prices</a>
       <a href="#story">Our Story</a>
+      <a href="#careers">Careers</a>
       <a href="#feedback">Feedback</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -425,6 +426,55 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     </div>
   </section>
 
+  <section id="careers">
+    <div class="wrap">
+      <p class="eyebrow">Careers</p>
+      <h2>Join the J3S team</h2>
+      <p style="color:var(--mist);max-width:56ch;margin-bottom:22px">We hire from the communities we serve —
+      cashiers, drivers, helpers, washers, and managers across our Biñan, Carmona, and Caloocan branches.
+      Fill out the form below and we'll contact you if you're shortlisted.</p>
+      <form id="jobForm" class="fb-form" novalidate>
+        <div class="fb-row">
+          <label>Full name *<input type="text" id="jobName" maxlength="120" autocomplete="name" required></label>
+          <label style="max-width:110px">Age<input type="number" id="jobAge" min="15" max="80" inputmode="numeric"></label>
+          <label style="max-width:160px">Sex
+            <select id="jobGender">
+              <option value="">Choose...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </label>
+        </div>
+        <label>Position applying for *
+          <select id="jobPosition" required>
+            <option value="">Choose a position...</option>
+            <option>Cashier</option>
+            <option>Manager</option>
+            <option>Driver</option>
+            <option>Helper</option>
+            <option>Washer</option>
+            <option>Floater</option>
+            <option>Laundry Assistant</option>
+          </select>
+        </label>
+        <label>Home address<input type="text" id="jobAddress" maxlength="300" autocomplete="street-address" placeholder="House no., street, barangay, city"></label>
+        <div class="fb-row">
+          <label>Phone number *<input type="tel" id="jobPhone" maxlength="60" autocomplete="tel" required placeholder="09XX XXX XXXX"></label>
+          <label>Email address<input type="email" id="jobEmail" maxlength="120" autocomplete="email"></label>
+        </div>
+        <label>About yourself<textarea id="jobAbout" rows="4" maxlength="3000" placeholder="Work experience, skills, which branch is near you, when you can start..."></textarea></label>
+        <label>Resume (optional — PDF, Word, or photo, max 5MB)
+          <input type="file" id="jobResume" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp">
+        </label>
+        <input type="text" id="jobWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="fb-actions">
+          <button type="submit" class="btn sun" id="jobSubmit">Submit Application</button>
+          <span id="jobStatus" class="fb-status" role="status"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section id="feedback" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="wrap">
       <p class="eyebrow">We're listening</p>
@@ -531,6 +581,7 @@ var CONTENT = {
   gcash:   { name: "Jeffrey L", number: "0935 474 6369" },
   email:   "j3sbusiness@gmail.com",
   feedbackApi: "https://j3s-southville-main.up.railway.app/api/public/feedback",
+  hiringApi:   "https://j3s-southville-main.up.railway.app/api/public/apply",
   facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
 
   branches: [
@@ -734,6 +785,7 @@ fetch('https://j3s-southville-main.up.railway.app/api/public/website-content', {
     if (d && d.content && d.content.branches && d.content.branches.length) {
       var c = d.content;
       c.feedbackApi = CONTENT.feedbackApi;
+      c.hiringApi = CONTENT.hiringApi;
       renderSite(c);
     }
   })
@@ -801,6 +853,71 @@ document.getElementById('footerYear').textContent =
       status.className = 'fb-status err';
       status.innerHTML = 'Could not send (' + esc(err.message) + '). ' +
         '<a href="' + mail + '">Send it by email instead</a>.';
+    });
+  });
+})();
+
+/* Careers form: submits a job application (multipart, so the resume file
+   can ride along) to the J3S system's public hiring endpoint.
+   If the network call fails, falls back to a prefilled email. */
+(function(){
+  document.getElementById('jobForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var status = document.getElementById('jobStatus');
+    var btn = document.getElementById('jobSubmit');
+    function err(msg){ status.className = 'fb-status err'; status.textContent = msg; }
+
+    var name = document.getElementById('jobName').value.trim();
+    var position = document.getElementById('jobPosition').value;
+    var phone = document.getElementById('jobPhone').value.trim();
+    var about = document.getElementById('jobAbout').value.trim();
+    var resume = document.getElementById('jobResume').files[0] || null;
+    if (name.length < 2) return err('Please enter your full name.');
+    if (!position) return err('Please choose the position you are applying for.');
+    if (phone.replace(/\D/g,'').length < 7) return err('Please enter your phone number.');
+    if (!about && !resume) return err('Please tell us about yourself or attach your resume.');
+    if (resume && resume.size > 5 * 1024 * 1024) return err('Resume file is too large — maximum 5MB.');
+
+    var fd = new FormData();
+    fd.append('full_name', name);
+    fd.append('age', document.getElementById('jobAge').value);
+    fd.append('gender', document.getElementById('jobGender').value);
+    fd.append('position', position);
+    fd.append('home_address', document.getElementById('jobAddress').value.trim());
+    fd.append('email', document.getElementById('jobEmail').value.trim());
+    fd.append('phone', phone);
+    fd.append('about', about);
+    fd.append('website', document.getElementById('jobWebsite').value);
+    if (resume) fd.append('resume', resume);
+
+    btn.disabled = true;
+    status.className = 'fb-status';
+    status.textContent = 'Submitting your application...';
+    fetch(CONTENT.hiringApi, { method: 'POST', body: fd })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, d: d}; }); })
+    .then(function(res){
+      if (res.ok && res.d.success) {
+        document.getElementById('jobForm').innerHTML =
+          '<p style="font-size:18px;font-weight:800;color:#2F9E44">Salamat, ' + esc(name.split(' ')[0]) + '! Your application was received.</p>' +
+          '<p style="color:var(--mist)">We review every application and will contact you by phone or email if you\'re shortlisted.</p>';
+      } else {
+        throw new Error(res.d.error || 'Submission failed');
+      }
+    })
+    .catch(function(errr){
+      btn.disabled = false;
+      var mail = 'mailto:' + CONTENT.email +
+        '?subject=' + encodeURIComponent('[J3S HIRING] ' + position + ' — ' + name) +
+        '&body=' + encodeURIComponent(
+          'Position: ' + position + '\nName: ' + name + '\nPhone: ' + phone +
+          '\nAge: ' + document.getElementById('jobAge').value +
+          '\nSex: ' + document.getElementById('jobGender').value +
+          '\nAddress: ' + document.getElementById('jobAddress').value +
+          '\nEmail: ' + document.getElementById('jobEmail').value +
+          '\n\nAbout me:\n' + about + '\n\n(Attach your resume to this email)');
+      status.className = 'fb-status err';
+      status.innerHTML = 'Could not send (' + esc(errr.message) + '). ' +
+        '<a href="' + mail + '">Apply by email instead</a>.';
     });
   });
 })();
