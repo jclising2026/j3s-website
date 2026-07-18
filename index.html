@@ -259,6 +259,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#services">Services</a>
       <a href="#branches">Branches</a>
       <a href="#prices">Prices</a>
+      <a href="#laundry-checklist">Laundry Checklist</a>
       <a href="#story">Our Story</a>
       <a href="#careers">Careers</a>
       <a href="#feedback">Feedback</a>
@@ -423,6 +424,36 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <p class="price">Accepted at every branch</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="laundry-checklist">
+    <div class="wrap">
+      <p class="eyebrow">Laundry</p>
+      <h2>Clothes checklist — para walang nawawala</h2>
+      <p style="color:var(--mist);max-width:58ch;margin-bottom:22px">List your clothes before dropping them off
+      and get a short code. Show the code at the counter — we count your clothes <b>together</b> at drop-off,
+      and check the same list again when you claim. Everything accounted for, twice.</p>
+      <form id="lcForm" class="fb-form" novalidate>
+        <label>Branch *
+          <select id="lcBranch" required></select>
+        </label>
+        <div class="fb-row">
+          <label>Your name *<input type="text" id="lcName" maxlength="60" autocomplete="name" required></label>
+          <label>Cellphone (optional)<input type="tel" id="lcPhone" maxlength="13" inputmode="numeric" autocomplete="tel" placeholder="09XX XXX XXXX"></label>
+        </div>
+        <div id="lcItems" style="display:flex;flex-direction:column;gap:8px"></div>
+        <button type="button" id="lcAdd" style="align-self:flex-start;background:none;border:1px dashed var(--line);border-radius:10px;padding:8px 14px;font-weight:700;color:var(--sea);cursor:pointer">+ Add another item</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:#f6fafd;border:1px solid var(--line);border-radius:10px;padding:10px 16px">
+          <b>Total pieces</b><span id="lcTotal" style="font-size:26px;font-weight:800">0</span>
+        </div>
+        <label>Notes (optional)<input type="text" id="lcNotes" maxlength="200" placeholder="Stains, delicate items, damage already present..."></label>
+        <input type="text" id="lcWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="fb-actions">
+          <button type="submit" class="btn sun" id="lcSubmit">Get my checklist code</button>
+          <span id="lcStatus" class="fb-status" role="status"></span>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -853,6 +884,90 @@ document.getElementById('footerYear').textContent =
       status.className = 'fb-status err';
       status.innerHTML = 'Could not send (' + esc(err.message) + '). ' +
         '<a href="' + mail + '">Send it by email instead</a>.';
+    });
+  });
+})();
+
+/* Laundry checklist: customer pre-fills the clothes list, the branch server
+   issues a short LC code shown at the counter for the count-together check. */
+(function(){
+  var STD = ['T-shirts','Polo / collared shirts','Pants / jeans','Shorts','Underwear',
+             'Socks (pairs)','Towels','Bedsheets / blankets','Uniforms','Jackets / hoodies'];
+  var wrap = document.getElementById('lcItems');
+  var laundryBranches = CONTENT.branches.filter(function(b){ return (b.services||[]).indexOf('laundry') >= 0; });
+  var sel = document.getElementById('lcBranch');
+  sel.innerHTML = '<option value="">Choose your branch...</option>' +
+    laundryBranches.map(function(b,i){ return '<option value="'+i+'">'+esc(b.name)+' — '+esc(b.area)+'</option>'; }).join('');
+
+  function addRow(name, fixed){
+    var d = document.createElement('div');
+    d.style.cssText = 'display:flex;gap:10px;align-items:center';
+    d.innerHTML =
+      '<input class="lc-item" style="flex:1;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px'+(fixed?';background:#f6fafd':'')+'" '+
+        (fixed ? 'readonly' : 'placeholder="Other item (e.g. curtains)..." maxlength="40"') + ' value="'+esc(name)+'">' +
+      '<input type="number" class="lc-qty" min="0" max="500" placeholder="0" inputmode="numeric" ' +
+        'style="width:86px;text-align:center;border:1.5px solid var(--line);border-radius:10px;padding:10px 6px;font-size:15px">';
+    wrap.appendChild(d);
+  }
+  STD.forEach(function(n){ addRow(n, true); });
+  addRow('', false);
+  document.getElementById('lcAdd').addEventListener('click', function(){ addRow('', false); });
+  wrap.addEventListener('input', function(){
+    var t = 0;
+    Array.prototype.forEach.call(wrap.querySelectorAll('.lc-qty'), function(i){ t += parseInt(i.value, 10) || 0; });
+    document.getElementById('lcTotal').textContent = t;
+  });
+
+  document.getElementById('lcForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var status = document.getElementById('lcStatus');
+    var btn = document.getElementById('lcSubmit');
+    function err(m){ status.className = 'fb-status err'; status.textContent = m; }
+    if (sel.value === '') { err('Please choose your branch.'); return; }
+    var b = laundryBranches[+sel.value];
+    var name = document.getElementById('lcName').value.trim();
+    if (name.length < 2) { err('Please enter your name.'); return; }
+    var items = [];
+    Array.prototype.forEach.call(wrap.children, function(row){
+      var it = row.querySelector('.lc-item'), q = row.querySelector('.lc-qty');
+      if (!it || !q) return;
+      var qty = parseInt(q.value, 10) || 0;
+      if (it.value.trim() && qty > 0) items.push({ item: it.value.trim(), qty: qty });
+    });
+    if (!items.length) { err('Put a quantity beside at least one item.'); return; }
+    var apiBase;
+    try { apiBase = new URL(b.order).origin; } catch(_) { err('Branch link problem — please message us instead.'); return; }
+    btn.disabled = true;
+    status.className = 'fb-status';
+    status.textContent = 'Creating your checklist...';
+    fetch(apiBase + '/api/public/laundry-checklist', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        customer_name: name,
+        phone: document.getElementById('lcPhone').value.trim(),
+        notes: document.getElementById('lcNotes').value.trim(),
+        items: items,
+        branch_label: b.name,
+        website: document.getElementById('lcWebsite').value
+      })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, d: d}; }); })
+    .then(function(res){
+      if (res.ok && res.d.success) {
+        document.getElementById('lcForm').innerHTML =
+          '<p style="font-size:16px;color:var(--mist);margin:0">Show this code at the ' + esc(b.name) + ' counter:</p>' +
+          '<p style="font-size:46px;font-weight:800;letter-spacing:3px;color:var(--sea);margin:6px 0">' + esc(res.d.code) + '</p>' +
+          '<p style="font-size:17px;margin:0"><b>' + res.d.total_pieces + ' piece(s)</b> listed under ' + esc(name) + '.</p>' +
+          '<p style="color:var(--mist)">📸 Screenshot this screen. At drop-off we count your clothes together to confirm the list, ' +
+          'and the same list is checked again when you claim — para walang nawawala.</p>';
+      } else {
+        throw new Error(res.d.error || 'Submission failed');
+      }
+    })
+    .catch(function(e2){
+      btn.disabled = false;
+      err('Could not create the checklist (' + e2.message + '). You can also just list your clothes with the cashier at the counter.');
     });
   });
 })();
