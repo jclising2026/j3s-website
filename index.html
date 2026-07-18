@@ -448,6 +448,10 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <b>Total pieces</b><span id="lcTotal" style="font-size:26px;font-weight:800">0</span>
         </div>
         <label>Notes (optional)<input type="text" id="lcNotes" maxlength="200" placeholder="Stains, delicate items, damage already present..."></label>
+        <label>Photos of your clothes (optional — up to 3, e.g. the pile or bag before drop-off)
+          <input type="file" id="lcPhotos" accept="image/*" capture="environment" multiple>
+        </label>
+        <div id="lcPreviews" style="display:flex;gap:10px;flex-wrap:wrap"></div>
         <input type="text" id="lcWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <div class="fb-actions">
           <button type="submit" class="btn sun" id="lcSubmit">Get my checklist code</button>
@@ -918,6 +922,38 @@ document.getElementById('footerYear').textContent =
     document.getElementById('lcTotal').textContent = t;
   });
 
+  /* Photos: keep max 3, downscale on-device so uploads stay small even on 108MP phones */
+  var lcPhotoBlobs = [];
+  function shrinkImage(file){
+    return new Promise(function(resolve){
+      var img = new Image();
+      img.onload = function(){
+        var MAX = 1400, w = img.width, h = img.height;
+        if (w > MAX || h > MAX) { var k = MAX / Math.max(w, h); w = Math.round(w*k); h = Math.round(h*k); }
+        var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(img, 0, 0, w, h);
+        cv.toBlob(function(b){ resolve(b || file); }, 'image/jpeg', 0.82);
+        URL.revokeObjectURL(img.src);
+      };
+      img.onerror = function(){ resolve(file); };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+  document.getElementById('lcPhotos').addEventListener('change', function(){
+    var files = Array.prototype.slice.call(this.files, 0, 3);
+    var pv = document.getElementById('lcPreviews');
+    pv.innerHTML = ''; lcPhotoBlobs = [];
+    files.forEach(function(f){
+      shrinkImage(f).then(function(blob){
+        lcPhotoBlobs.push(blob);
+        var img = document.createElement('img');
+        img.src = URL.createObjectURL(blob);
+        img.style.cssText = 'width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--line)';
+        pv.appendChild(img);
+      });
+    });
+  });
+
   document.getElementById('lcForm').addEventListener('submit', function(e){
     e.preventDefault();
     var status = document.getElementById('lcStatus');
@@ -939,26 +975,36 @@ document.getElementById('footerYear').textContent =
     try { apiBase = new URL(b.order).origin; } catch(_) { err('Branch link problem — please message us instead.'); return; }
     btn.disabled = true;
     status.className = 'fb-status';
-    status.textContent = 'Creating your checklist...';
-    fetch(apiBase + '/api/public/laundry-checklist', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        customer_name: name,
-        phone: document.getElementById('lcPhone').value.trim(),
-        notes: document.getElementById('lcNotes').value.trim(),
-        items: items,
-        branch_label: b.name,
-        website: document.getElementById('lcWebsite').value
-      })
-    })
+    status.textContent = lcPhotoBlobs.length ? 'Uploading your checklist and photos...' : 'Creating your checklist...';
+    var fields = {
+      customer_name: name,
+      phone: document.getElementById('lcPhone').value.trim(),
+      notes: document.getElementById('lcNotes').value.trim(),
+      branch_label: b.name,
+      website: document.getElementById('lcWebsite').value
+    };
+    var req;
+    if (lcPhotoBlobs.length) {
+      var fd = new FormData();
+      Object.keys(fields).forEach(function(k){ fd.append(k, fields[k]); });
+      fd.append('items', JSON.stringify(items));
+      lcPhotoBlobs.slice(0, 3).forEach(function(blob, i){ fd.append('photos', blob, 'photo' + (i + 1) + '.jpg'); });
+      req = fetch(apiBase + '/api/public/laundry-checklist', { method: 'POST', body: fd });
+    } else {
+      fields.items = items;
+      req = fetch(apiBase + '/api/public/laundry-checklist', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(fields)
+      });
+    }
+    req
     .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, d: d}; }); })
     .then(function(res){
       if (res.ok && res.d.success) {
         document.getElementById('lcForm').innerHTML =
           '<p style="font-size:16px;color:var(--mist);margin:0">Show this code at the ' + esc(b.name) + ' counter:</p>' +
           '<p style="font-size:46px;font-weight:800;letter-spacing:3px;color:var(--sea);margin:6px 0">' + esc(res.d.code) + '</p>' +
-          '<p style="font-size:17px;margin:0"><b>' + res.d.total_pieces + ' piece(s)</b> listed under ' + esc(name) + '.</p>' +
+          '<p style="font-size:17px;margin:0"><b>' + res.d.total_pieces + ' piece(s)</b> listed under ' + esc(name) +
+            (res.d.photos ? ' · ' + res.d.photos + ' photo(s) attached' : '') + '.</p>' +
           '<p style="color:var(--mist)">📸 Screenshot this screen. At drop-off we count your clothes together to confirm the list, ' +
           'and the same list is checked again when you claim — para walang nawawala.</p>';
       } else {
