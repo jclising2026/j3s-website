@@ -261,6 +261,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#prices">Prices</a>
       <a href="#laundry-checklist">Laundry Checklist</a>
       <a href="#story">Our Story</a>
+      <a href="#apartments">Apartments</a>
       <a href="#careers">Careers</a>
       <a href="#feedback">Feedback</a>
       <a href="#contact">Contact</a>
@@ -461,6 +462,41 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     </div>
   </section>
 
+  <section id="apartments" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <p class="eyebrow">Apartments for Rent</p>
+      <h2>Looking for a place to stay?</h2>
+      <p style="color:var(--mist);max-width:56ch;margin-bottom:22px">J3S also manages two well-kept
+      apartment buildings — <b>Quintos Apartment</b> and <b>PUC Apartment</b>. Clean units, fair rates,
+      transparent submetered water billing, and a landlord who actually answers. Send an inquiry below
+      and we'll get back to you with availability, rates, and a viewing schedule — or email us directly at
+      <a href="mailto:j3sbusiness@gmail.com" style="font-weight:700">j3sbusiness@gmail.com</a>.</p>
+      <form id="aptForm" class="fb-form" novalidate>
+        <div class="fb-row">
+          <label>Full name *<input type="text" id="aptName" maxlength="120" autocomplete="name" required></label>
+          <label>Property
+            <select id="aptProperty">
+              <option value="Either">Either / Not sure</option>
+              <option value="Quintos Apartment">Quintos Apartment</option>
+              <option value="PUC Apartment">PUC Apartment</option>
+            </select>
+          </label>
+        </div>
+        <div class="fb-row">
+          <label>Phone number *<input type="tel" id="aptPhone" maxlength="60" autocomplete="tel" required placeholder="09XX XXX XXXX"></label>
+          <label>Email address *<input type="email" id="aptEmail" maxlength="120" autocomplete="email" required></label>
+          <label style="max-width:180px">Target move-in<input type="month" id="aptMoveIn"></label>
+        </div>
+        <label>Message<textarea id="aptMessage" rows="4" maxlength="1000" placeholder="How many occupants, budget, questions about the unit..."></textarea></label>
+        <input type="text" id="aptWebsite" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="fb-actions">
+          <button type="submit" class="btn sun" id="aptSubmit">Send Inquiry</button>
+          <span id="aptStatus" class="fb-status" role="status"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section id="careers">
     <div class="wrap">
       <p class="eyebrow">Careers</p>
@@ -617,6 +653,7 @@ var CONTENT = {
   email:   "j3sbusiness@gmail.com",
   feedbackApi: "https://j3s-southville-main.up.railway.app/api/public/feedback",
   hiringApi:   "https://j3s-southville-main.up.railway.app/api/public/apply",
+  apartmentsApi: "https://j3s-southville-main.up.railway.app/api/rental/inquiry",
   facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
 
   branches: [
@@ -1079,6 +1116,62 @@ document.getElementById('footerYear').textContent =
       status.className = 'fb-status err';
       status.innerHTML = 'Could not send (' + esc(errr.message) + '). ' +
         '<a href="' + mail + '">Apply by email instead</a>.';
+    });
+  });
+})();
+
+/* Apartment rental inquiry → main branch API → j3sbusiness@gmail.com + Action Queue */
+(function(){
+  function escA(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  document.getElementById('aptForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var status = document.getElementById('aptStatus');
+    var btn = document.getElementById('aptSubmit');
+    function err(msg){ status.className = 'fb-status err'; status.textContent = msg; }
+
+    var name = document.getElementById('aptName').value.trim();
+    var phone = document.getElementById('aptPhone').value.trim();
+    var email = document.getElementById('aptEmail').value.trim();
+    var prop = document.getElementById('aptProperty').value;
+    var moveIn = document.getElementById('aptMoveIn').value;
+    var message = document.getElementById('aptMessage').value.trim();
+    if (name.length < 2) return err('Please enter your full name.');
+    if (phone.replace(/\D/g,'').length < 7) return err('Please enter your phone number.');
+    if (email.indexOf('@') < 1) return err('Please enter a valid email address.');
+
+    btn.disabled = true;
+    status.className = 'fb-status';
+    status.textContent = 'Sending your inquiry...';
+    fetch(CONTENT.apartmentsApi, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: name, phone: phone, email: email,
+        property_interest: prop, move_in_date: moveIn, message: message,
+        website: document.getElementById('aptWebsite').value
+      })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, d: d}; }); })
+    .then(function(res){
+      if (res.ok && res.d.success) {
+        document.getElementById('aptForm').innerHTML =
+          '<p style="font-size:18px;font-weight:800;color:#2F9E44">Salamat, ' + escA(name.split(' ')[0]) + '! Your inquiry was received.</p>' +
+          '<p style="color:var(--mist)">We\'ll contact you with availability, rates, and a viewing schedule.</p>';
+      } else {
+        throw new Error(res.d.error || 'Submission failed');
+      }
+    })
+    .catch(function(errr){
+      btn.disabled = false;
+      var mail = 'mailto:' + CONTENT.email +
+        '?subject=' + encodeURIComponent('[J3S APARTMENTS] Rent Inquiry — ' + name) +
+        '&body=' + encodeURIComponent(
+          'Name: ' + name + '\nPhone: ' + phone + '\nEmail: ' + email +
+          '\nProperty: ' + prop + '\nMove-in: ' + moveIn + '\n\n' + message);
+      status.className = 'fb-status err';
+      status.innerHTML = 'Could not send (' + escA(errr.message) + '). ' +
+        '<a href="' + mail + '">Inquire by email instead</a>.';
     });
   });
 })();
