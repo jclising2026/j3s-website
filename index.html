@@ -629,9 +629,45 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
 <button type="button" class="chat-fab" onclick="toggleChat()" aria-label="Chat with us on Messenger" title="Chat with us">💬</button>
 <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with a branch">
   <h4>Chat with us! 💬</h4>
-  <p class="sub">Piliin ang branch mo — diretso sa Messenger nila.</p>
+  <div class="ai-ask" id="aiAsk">
+    <p class="sub" style="margin-bottom:6px"><b>Quick question?</b> Ask our AI — sagot agad:</p>
+    <div style="display:flex;gap:6px">
+      <input type="text" id="aiQuestion" maxlength="400" placeholder="e.g. Anong oras kayo bukas? May delivery ba?"
+             style="flex:1;padding:8px 10px;border:1px solid #d7e3ec;border-radius:8px;font-size:13.5px"
+             onkeydown="if(event.key==='Enter')askAI()">
+      <button type="button" onclick="askAI()" id="aiAskBtn"
+              style="padding:8px 12px;border:none;border-radius:8px;background:#0E5E8A;color:#fff;font-weight:700;cursor:pointer">Ask</button>
+    </div>
+    <div id="aiAnswer" style="display:none;margin-top:8px;padding:10px 12px;background:#F0F7FB;border-radius:8px;font-size:13.5px;line-height:1.5"></div>
+  </div>
+  <p class="sub" style="margin-top:12px">O piliin ang branch mo — diretso sa Messenger nila:</p>
   <div class="chat-list" id="chatList"></div>
 </div>
+
+<script>
+async function askAI() {
+  var q = document.getElementById('aiQuestion').value.trim();
+  if (q.length < 3) return;
+  var btn = document.getElementById('aiAskBtn');
+  var box = document.getElementById('aiAnswer');
+  btn.disabled = true; btn.textContent = '...';
+  box.style.display = 'block';
+  box.textContent = 'Thinking...';
+  try {
+    var r = await fetch('https://j3s-southville-main.up.railway.app/api/public/ask', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question: q})
+    });
+    var d = await r.json();
+    box.textContent = d.answer || d.error || 'Please message us on Messenger below!';
+  } catch (e) {
+    box.textContent = 'Could not reach the helper — message us on Messenger below!';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Ask';
+  }
+}
+</script>
 
 <a class="mobile-cta" href="#branches">Order Now — find your branch</a>
 
