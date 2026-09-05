@@ -272,10 +272,10 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
 .hero{position:relative;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
 @media(max-width:860px){ .hero-grid{grid-template-columns:1fr} }
-.hero-words span{display:inline-block;opacity:0;transform:translateY(28px) rotate(-2deg);animation:wordIn .7s cubic-bezier(.2,.8,.2,1) forwards}
+.hero-words span{display:inline-block;animation:wordIn .7s cubic-bezier(.2,.8,.2,1) both}
 .hero-words .w1{animation-delay:.05s} .hero-words .w2{animation-delay:.22s} .hero-words .w3{animation-delay:.39s}
-@keyframes wordIn{to{opacity:1;transform:none}}
-.hero-sub,.hero-note,.hero .cta-row,.hero .chips{opacity:0;animation:fadeUp .6s ease forwards}
+@keyframes wordIn{from{opacity:0;transform:translateY(28px) rotate(-2deg)}to{opacity:1;transform:none}}
+.hero-sub,.hero-note,.hero .cta-row,.hero .chips{animation:fadeUp .6s ease both}
 .hero-sub{animation-delay:.55s} .hero-note{animation-delay:.65s} .hero .cta-row{animation-delay:.75s} .hero .chips{animation-delay:.85s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .bubbles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
@@ -298,7 +298,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
 .tile.t3{top:180px;background:linear-gradient(135deg,#F2A03D,#F7C46A);color:var(--ink);transform:translateZ(0) rotateX(6deg)}
 .stack:hover .tile.t1{transform:translateZ(90px) rotateX(6deg)}
 .stack:hover .tile.t2{transform:translateZ(45px) rotateX(6deg)}
-@media (prefers-reduced-motion: reduce){ .stack-inner{animation:none} .hero-words span,.hero-sub,.hero-note,.hero .cta-row,.hero .chips{opacity:1;animation:none;transform:none} .bubbles{display:none} }
+@media (prefers-reduced-motion: reduce){ .stack-inner{animation:none} .hero-words span,.hero-sub,.hero-note,.hero .cta-row,.hero .chips{animation:none} .bubbles{display:none} }
 /* trust strip */
 .trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:34px}
 .trust div{background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:12px;padding:12px 14px;backdrop-filter:blur(4px)}
