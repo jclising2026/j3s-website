@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap">
 <title>J3S — Water Refilling, Ice & Laundry | Biñan · Carmona · Caloocan</title>
 <meta name="description" content="J3S Water Refilling Station, Tube Ice, and Laundry services. 8 branches across Biñan Laguna, Carmona Cavite, and Baesa Caloocan. Open 7 AM–7 PM. Order online, pay cash or GCash.">
 
@@ -56,7 +59,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
 body{
-  font-family:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-family:"Plus Jakarta Sans",system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   color:var(--ink); background:var(--foam); line-height:1.6;
 }
 a{color:var(--sea)}
@@ -245,6 +248,103 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     box-shadow:0 -4px 18px rgba(11,36,54,.25)}
   body{padding-bottom:56px}
 }
+
+/* ═══ 2026 refresh: motion, 3D hero, mobile nav, trust strip, digital section ═══ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:90;background:linear-gradient(90deg,var(--sea),var(--ice),var(--sun));transition:width .1s linear}
+.btn{transition:transform .15s ease, box-shadow .15s ease, background .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,36,54,.18)}
+.btn:active{transform:translateY(0)}
+/* hamburger */
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;border-radius:8px}
+.nav-toggle span{display:block;width:24px;height:3px;background:var(--ink);border-radius:2px;margin:4px 0;transition:transform .2s ease,opacity .2s ease}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:700px){
+  .nav-toggle{display:block}
+  .nav .btn{display:none}
+  .nav-links{display:none;position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);
+    flex-direction:column;gap:0;padding:6px 0 10px;box-shadow:0 14px 30px rgba(11,36,54,.14)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 24px;border-top:1px solid var(--line)}
+}
+/* hero: two columns + kinetic words + ambient bubbles */
+.hero{position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+@media(max-width:860px){ .hero-grid{grid-template-columns:1fr} }
+.hero-words span{display:inline-block;opacity:0;transform:translateY(28px) rotate(-2deg);animation:wordIn .7s cubic-bezier(.2,.8,.2,1) forwards}
+.hero-words .w1{animation-delay:.05s} .hero-words .w2{animation-delay:.22s} .hero-words .w3{animation-delay:.39s}
+@keyframes wordIn{to{opacity:1;transform:none}}
+.hero-sub,.hero-note,.hero .cta-row,.hero .chips{opacity:0;animation:fadeUp .6s ease forwards}
+.hero-sub{animation-delay:.55s} .hero-note{animation-delay:.65s} .hero .cta-row{animation-delay:.75s} .hero .chips{animation-delay:.85s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.bubbles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.bubbles i{position:absolute;bottom:-60px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(127,214,232,.35));
+  border:1px solid rgba(127,214,232,.5);animation:rise linear infinite;opacity:0}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}10%{opacity:.7}100%{transform:translateY(-120vh) scale(1.1);opacity:0}}
+.hero .wrap{position:relative;z-index:1}
+/* 3D service stack */
+.stack{perspective:1100px;display:flex;justify-content:center;align-items:center;min-height:340px}
+.stack-inner{position:relative;width:min(340px,80vw);height:300px;transform-style:preserve-3d;transition:transform .25s ease;animation:floaty 6s ease-in-out infinite}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.tile{position:absolute;left:0;right:0;margin:auto;width:86%;height:120px;border-radius:18px;padding:16px 18px;color:#fff;
+  box-shadow:0 22px 48px rgba(11,36,54,.22);display:flex;align-items:center;gap:14px;transform-style:preserve-3d;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.tile svg{width:44px;height:44px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.18))}
+.tile b{display:block;font-size:19px;letter-spacing:-.01em}
+.tile small{display:block;font-size:13px;opacity:.9}
+.tile.t1{top:0;background:linear-gradient(135deg,#0E5E8A,#1C7ED6);transform:translateZ(60px) rotateX(6deg)}
+.tile.t2{top:90px;background:linear-gradient(135deg,#3FB4CE,#7FD6E8);color:var(--ink);transform:translateZ(30px) rotateX(6deg)}
+.tile.t3{top:180px;background:linear-gradient(135deg,#F2A03D,#F7C46A);color:var(--ink);transform:translateZ(0) rotateX(6deg)}
+.stack:hover .tile.t1{transform:translateZ(90px) rotateX(6deg)}
+.stack:hover .tile.t2{transform:translateZ(45px) rotateX(6deg)}
+@media (prefers-reduced-motion: reduce){ .stack-inner{animation:none} .hero-words span,.hero-sub,.hero-note,.hero .cta-row,.hero .chips{opacity:1;animation:none;transform:none} .bubbles{display:none} }
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:34px}
+.trust div{background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:12px;padding:12px 14px;backdrop-filter:blur(4px)}
+.trust b{display:block;font-size:24px;letter-spacing:-.02em;color:var(--sea);font-variant-numeric:tabular-nums}
+.trust span{font-size:13px;color:var(--mist)}
+/* service icons + card CTA */
+.card .ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:2px}
+.svc-water .ico{background:#E3F0F7;color:var(--sea)} .svc-ice .ico{background:#E9F8FB;color:#177E97} .svc-laundry .ico{background:#FCF0DD;color:#9A6212}
+.card .ico svg{width:26px;height:26px}
+.card .go{margin-top:auto;padding-top:8px}
+.card .go a{font-weight:800;text-decoration:none}
+.card .go a:hover{text-decoration:underline}
+/* branch filter */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.filters button.on{background:var(--sea);color:#fff;border-color:var(--sea)}
+.filters .near{margin-left:auto;background:#E3F0F7;color:var(--sea);border-color:#CFE5F1}
+.branch.nearest{outline:3px solid var(--sun);outline-offset:2px}
+.branch .dist{font-size:12.5px;color:#9A6212;font-weight:700}
+.branch.hide{display:none}
+/* reveal stagger */
+.cards .reveal:nth-child(2){transition-delay:.08s} .cards .reveal:nth-child(3){transition-delay:.16s}
+.steps .step{transition:transform .18s ease,box-shadow .18s ease} .steps .step:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(11,36,54,.10)}
+/* digital services section */
+.digital{background:var(--ink);color:#E8F3F8;border-radius:18px;padding:36px 32px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;position:relative;overflow:hidden}
+.digital::after{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(127,214,232,.35),transparent 65%)}
+@media(max-width:820px){ .digital{grid-template-columns:1fr} }
+.digital .eyebrow{color:var(--ice)}
+.digital h2{color:#fff}
+.digital p{font-size:16px;max-width:52ch}
+.digital ul{list-style:none;display:grid;gap:10px;margin-top:14px}
+.digital li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.digital li::before{content:'✓';color:var(--sun);font-weight:800}
+.mock{background:#fff;border-radius:14px;padding:14px;color:var(--ink);box-shadow:0 20px 50px rgba(0,0,0,.35);transform:rotate(-2deg);transition:transform .3s ease}
+.digital:hover .mock{transform:rotate(0)}
+.mock .bar{display:flex;gap:5px;margin-bottom:10px} .mock .bar i{width:9px;height:9px;border-radius:50%;display:block;background:#D7E7EE}
+.mock .line{height:10px;border-radius:5px;background:#EEF4F8;margin:8px 0}
+.mock .line.w{width:60%} .mock .cta{height:30px;border-radius:8px;background:var(--sun);width:44%;margin-top:12px}
+.mock .row{display:flex;gap:8px;margin-top:10px} .mock .row i{flex:1;height:54px;border-radius:8px;display:block}
+/* mobile bar: three actions */
+@media(max-width:700px){
+  .mobile-cta{gap:0;padding:0}
+  .mobile-cta a,.mobile-cta button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 6px;color:#fff;text-decoration:none;font-weight:800;font-size:13px;background:none;border:0;border-right:1px solid rgba(255,255,255,.18)}
+  .mobile-cta a:last-child,.mobile-cta button:last-child{border-right:0}
+  .mobile-cta .ic{font-size:18px;line-height:1}
+}
 </style>
 </head>
 <body>
@@ -255,7 +355,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <span class="mark" aria-hidden="true"><i style="background:var(--sea)"></i><i style="background:var(--ice)"></i><i style="background:var(--sun)"></i></span>
       J3S
     </a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links" id="navLinks" aria-label="Main">
       <a href="#services">Services</a>
       <a href="#branches">Branches</a>
       <a href="#prices">Prices</a>
@@ -266,12 +366,17 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn" href="#branches">Order Now</a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
   </div>
 </header>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <main id="top">
   <section class="hero">
+    <div class="bubbles" id="bubbles" aria-hidden="true"></div>
     <div class="wrap">
+     <div class="hero-grid">
+     <div>
       <h1 class="hero-words">
         <span class="w1">Tubig.</span><br>
         <span class="w2">Yelo.</span><br>
@@ -289,6 +394,21 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
         <span class="chip">Tube Ice (Whole) <b>₱140</b></span>
         <span class="chip">Laundry Wash from <b>₱60</b></span>
         <span class="chip">Bondat <b>₱5</b></span>
+      </div>
+     </div>
+     <div class="stack reveal" id="stack" aria-hidden="true">
+      <div class="stack-inner" id="stackInner">
+        <div class="tile t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg><div><b>Water Refilling</b><small>Purified · ₱30 per 5-gal · delivered</small></div></div>
+        <div class="tile t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg><div><b>Tube Ice</b><small>Made daily at Arkansas · ₱5 to ₱140</small></div></div>
+        <div class="tile t3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 2 4-2 4 3-2 3-2-1v11H8V9L6 10 4 7z"/></svg><div><b>Laundry</b><small>Wash · dry · fold · pickup on select branches</small></div></div>
+      </div>
+     </div>
+     </div>
+      <div class="trust" aria-label="Why J3S">
+        <div><b data-count="8">0</b><span>branches, Biñan · Carmona · Caloocan</span></div>
+        <div><b>7 AM–7 PM</b><span>open daily; most branches rest Wednesdays</span></div>
+        <div><b data-count="3">0</b><span>services under one roof</span></div>
+        <div><b>Cash · GCash</b><span>pay your way, official receipt on request</span></div>
       </div>
     </div>
   </section>
@@ -308,21 +428,27 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <div class="cards">
         <div class="card svc-water reveal">
           <span class="bar" aria-hidden="true"></span>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
           <h3>Water Refilling</h3>
           <p>Purified drinking water in 5-gallon containers. Walk in with your container or have it delivered and picked up by our drivers.</p>
           <p class="price">₱30 per 5-gallon refill · delivery available</p>
+          <div class="go"><a href="#branches" onclick="setSvcFilter('water')">Order water &rarr;</a></div>
         </div>
         <div class="card svc-ice reveal">
           <span class="bar" aria-hidden="true"></span>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg></div>
           <h3>Tube Ice</h3>
           <p>Fresh ice produced daily at our Arkansas ICE plant — from sari-sari store packs to wholesale blocks for events and businesses.</p>
           <p class="price">₱5 Bondat · ₱8/kilo · ₱100/20&nbsp;kg · ₱140 whole</p>
+          <div class="go"><a href="#branches" onclick="setSvcFilter('ice')">Order ice &rarr;</a></div>
         </div>
         <div class="card svc-laundry reveal">
           <span class="bar" aria-hidden="true"></span>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 2 4-2 4 3-2 3-2-1v11H8V9L6 10 4 7z"/></svg></div>
           <h3>Laundry</h3>
           <p>Self-service or full wash-dry-fold with pickup and delivery on select branches. Your clothes back fresh, folded, and on time.</p>
           <p class="price">Wash from ₱60 · Dry from ₱75 · per 8 kg load</p>
+          <div class="go"><a href="#branches" onclick="setSvcFilter('laundry')">Book laundry &rarr;</a></div>
         </div>
       </div>
     </div>
@@ -332,6 +458,13 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     <div class="wrap">
       <p class="eyebrow">Find us</p>
       <h2>Eight branches, one tap to order</h2>
+      <div class="filters" id="svcFilters" aria-label="Filter branches by service">
+        <button type="button" class="on" data-f="all" onclick="setSvcFilter('all')">All branches</button>
+        <button type="button" data-f="water" onclick="setSvcFilter('water')">💧 Water</button>
+        <button type="button" data-f="ice" onclick="setSvcFilter('ice')">🧊 Ice</button>
+        <button type="button" data-f="laundry" onclick="setSvcFilter('laundry')">👕 Laundry</button>
+        <button type="button" class="near" id="nearBtn" onclick="findNearest()" style="display:none">📍 Nearest to me</button>
+      </div>
       <div class="branch-grid" id="branchGrid"><!-- rendered from CONTENT --></div>
     </div>
   </section>
@@ -454,6 +587,35 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <span id="lcStatus" class="fb-status" role="status"></span>
         </div>
       </form>
+    </div>
+  </section>
+
+  <section id="digital" style="display:none">
+    <div class="wrap">
+      <div class="digital reveal">
+        <div>
+          <p class="eyebrow">J3S Digital</p>
+          <h2 id="digHeading">Need a website and ordering system like this for your business?</h2>
+          <p id="digBody">This site, the online ordering, the GCash flow, the staff app and the AI chat helper were built in-house for J3S. We build the same for sari-sari stores, laundries, water stations, ice suppliers and local shops — fast, mobile-first, and easy to update yourself.</p>
+          <ul id="digList">
+            <li>Website with online ordering and Messenger chat</li>
+            <li>Branch app for sales, expenses, deliveries and payroll</li>
+            <li>GCash and cash tracking with daily audit</li>
+            <li>AI helper that answers customer questions 24/7</li>
+          </ul>
+          <div class="cta-row" style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn sun" id="digCta" href="mailto:j3sbusiness@gmail.com?subject=Website%20for%20my%20business">Ask for a quote</a>
+            <a class="btn" id="digChat" href="#contact" style="background:transparent;color:var(--ice);border:2px solid var(--ice)">Message us</a>
+          </div>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="line" style="width:40%;background:var(--sea);height:12px"></div>
+          <div class="line"></div><div class="line w"></div>
+          <div class="row"><i style="background:#E3F0F7"></i><i style="background:#E9F8FB"></i><i style="background:#FCF0DD"></i></div>
+          <div class="cta"></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -633,7 +795,11 @@ async function askAI() {
 }
 </script>
 
-<a class="mobile-cta" href="#branches">Order Now — find your branch</a>
+<nav class="mobile-cta" aria-label="Quick actions">
+  <a href="#branches"><span class="ic">🛒</span>Order</a>
+  <a href="tel:+639649704121" id="mobileCall"><span class="ic">📞</span>Call</a>
+  <button type="button" onclick="toggleChat()"><span class="ic">💬</span>Chat</button>
+</nav>
 
 <footer>
   <div class="wrap">
@@ -654,6 +820,10 @@ var CONTENT = {
   feedbackApi: "https://j3s-southville-main.up.railway.app/api/public/feedback",
   hiringApi:   "https://j3s-southville-main.up.railway.app/api/public/apply",
   facebook: "Jthrees Tubeice",       // page name, or full URL e.g. "https://facebook.com/JthreesTubeice"
+  // "We build websites" section (J3S Digital). Set enabled:false to hide.
+  digital: { enabled: true, heading: null, body: null, email: "j3sbusiness@gmail.com" },
+  // Optional: add lat/lng to a branch below (e.g. lat:14.30, lng:121.08) and the
+  // "Nearest to me" button appears on the branch list.
 
   branches: [
     { name:"J3S1 Hawaii", area:"Hawaii, Southville, Biñan, Laguna",
@@ -774,7 +944,7 @@ document.getElementById('branchGrid').innerHTML = C.branches.map(function(b, i){
     ? '<div class="meta"><a class="tel" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' +
       encodeURIComponent(b.address) + '">Get directions &rarr;</a></div>'
     : '';
-  return '<div class="branch reveal in">' +
+  return '<div class="branch reveal in" data-services="' + esc((b.services || []).join(' ')) + '" data-i="' + i + '">' +
     '<h3>' + esc(b.name) + '</h3>' +
     '<div class="area">' + esc(where) + '</div>' +
     directions +
@@ -830,6 +1000,25 @@ if (_photos.length && galSec) {
 } else if (galSec) { galSec.style.display = 'none'; }
 document.getElementById('emailLine').innerHTML =
   '<a href="mailto:' + esc(C.email) + '">' + esc(C.email) + '</a>';
+
+/* J3S Digital — "we build websites" (hidden when digital.enabled is false) */
+var _dg = C.digital || {};
+var _dgSec = document.getElementById('digital');
+if (_dgSec) {
+  _dgSec.style.display = (_dg.enabled === false) ? 'none' : '';
+  if (_dg.heading) document.getElementById('digHeading').textContent = _dg.heading;
+  if (_dg.body) document.getElementById('digBody').textContent = _dg.body;
+  var _dgMail = _dg.email || C.email;
+  if (_dgMail) document.getElementById('digCta').href = 'mailto:' + _dgMail + '?subject=' + encodeURIComponent('Website for my business');
+}
+/* mobile Call button → first branch with a phone */
+var _firstPhone = (C.branches.map(function(b){ return b.phone; }).filter(Boolean)[0] || '').split('·')[0].trim();
+var _mc = document.getElementById('mobileCall');
+if (_mc && _firstPhone) _mc.href = 'tel:+63' + _firstPhone.replace(/\D/g,'').replace(/^0/,'');
+/* nearest-branch button only when coordinates exist */
+var _nb = document.getElementById('nearBtn');
+if (_nb) _nb.style.display = C.branches.some(function(b){ return b.lat && b.lng; }) ? '' : 'none';
+applySvcFilter();
 document.getElementById('fbLine').innerHTML = !C.facebook
   ? '<span class="tba">Facebook page link to be added</span>'
   : (C.facebook.indexOf('http') === 0
@@ -871,9 +1060,11 @@ fetch('https://j3s-southville-main.up.railway.app/api/public/website-content', {
   .then(function(r){ if (!r.ok) throw new Error('http'); return r.json(); })
   .then(function(d){
     if (d && d.content && d.content.branches && d.content.branches.length) {
-      var c = d.content;
+      // top-level keys the owner's editor does not know yet fall back to the baked defaults
+      var c = Object.assign({}, CONTENT, d.content);
       c.feedbackApi = CONTENT.feedbackApi;
       c.hiringApi = CONTENT.hiringApi;
+      if (!c.digital) c.digital = CONTENT.digital;
       renderSite(c);
     }
   })
@@ -1160,6 +1351,60 @@ document.getElementById('qrOverlay').addEventListener('click', function(e){
   if (e.target === this) closeQr();
 });
 document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeQr(); });
+
+
+/* ═══ 2026 refresh: mobile nav, progress bar, ambient bubbles, 3D tilt, counters, filters, nearest ═══ */
+(function(){
+  var t = document.getElementById('navToggle'), n = document.getElementById('navLinks');
+  if (t && n) {
+    t.addEventListener('click', function(){ var o = n.classList.toggle('open'); t.classList.toggle('open', o); t.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+    n.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ n.classList.remove('open'); t.classList.remove('open'); t.setAttribute('aria-expanded','false'); }); });
+  }
+  var pr = document.getElementById('progress');
+  if (pr) window.addEventListener('scroll', function(){ var h = document.documentElement; var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1); pr.style.width = (p * 100) + '%'; }, {passive:true});
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bw = document.getElementById('bubbles');
+  if (bw && !reduced) {
+    var html = '';
+    for (var i = 0; i < 14; i++) {
+      var size = 10 + Math.round(Math.random() * 34), left = Math.round(Math.random() * 100), dur = 9 + Math.random() * 12, delay = -Math.random() * 12;
+      html += '<i style="width:' + size + 'px;height:' + size + 'px;left:' + left + '%;animation-duration:' + dur.toFixed(1) + 's;animation-delay:' + delay.toFixed(1) + 's"></i>';
+    }
+    bw.innerHTML = html;
+  }
+  var st = document.getElementById('stack'), si = document.getElementById('stackInner');
+  if (st && si && !reduced && window.matchMedia('(pointer:fine)').matches) {
+    st.addEventListener('mousemove', function(e){ var r = st.getBoundingClientRect(); var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; si.style.transform = 'rotateY(' + (x * 18) + 'deg) rotateX(' + (-y * 14) + 'deg)'; });
+    st.addEventListener('mouseleave', function(){ si.style.transform = ''; });
+  }
+  var counters = document.querySelectorAll('[data-count]');
+  function runCount(el){ var end = parseInt(el.getAttribute('data-count'), 10) || 0, start = 0, t0 = null; if (reduced) { el.textContent = end; return; }
+    function step(ts){ if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / 900); el.textContent = Math.round(start + (end - start) * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step); }
+  if ('IntersectionObserver' in window) { var cio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { runCount(e.target); cio.unobserve(e.target); } }); }); counters.forEach(function(c){ cio.observe(c); }); }
+  else counters.forEach(runCount);
+})();
+var SVC_FILTER = 'all';
+function setSvcFilter(f){ SVC_FILTER = f || 'all'; applySvcFilter(); }
+function applySvcFilter(){
+  document.querySelectorAll('#svcFilters button[data-f]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-f') === SVC_FILTER); });
+  document.querySelectorAll('#branchGrid .branch').forEach(function(el){
+    var svcs = (el.getAttribute('data-services') || '').split(' ');
+    el.classList.toggle('hide', SVC_FILTER !== 'all' && svcs.indexOf(SVC_FILTER) < 0);
+  });
+}
+function findNearest(){
+  if (!navigator.geolocation) { alert('Location is not available on this device.'); return; }
+  var btn = document.getElementById('nearBtn'); btn.textContent = '📍 Finding…';
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var la = pos.coords.latitude, lo = pos.coords.longitude, best = null;
+    function km(a, b, c, d){ var R = 6371, dLa = (c - a) * Math.PI / 180, dLo = (d - b) * Math.PI / 180; var h = Math.sin(dLa/2)*Math.sin(dLa/2) + Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dLo/2)*Math.sin(dLo/2); return 2 * R * Math.asin(Math.sqrt(h)); }
+    (CURRENT || CONTENT).branches.forEach(function(b, i){ if (!(b.lat && b.lng)) return; var d = km(la, lo, b.lat, b.lng); var el = document.querySelector('#branchGrid .branch[data-i="' + i + '"]'); if (el) { var tag = el.querySelector('.dist') || el.appendChild(Object.assign(document.createElement('div'), {className:'dist'})); tag.textContent = d.toFixed(1) + ' km away'; } if (!best || d < best.d) best = {d: d, i: i}; });
+    document.querySelectorAll('#branchGrid .branch').forEach(function(el){ el.classList.remove('nearest'); });
+    if (best) { var el = document.querySelector('#branchGrid .branch[data-i="' + best.i + '"]'); if (el) { el.classList.add('nearest'); el.scrollIntoView({behavior:'smooth', block:'center'}); } }
+    btn.textContent = '📍 Nearest to me';
+  }, function(){ btn.textContent = '📍 Nearest to me'; alert('Could not get your location. Please allow location access and try again.'); }, {timeout: 8000});
+}
 
 /* scroll reveal — no-op when reduced motion is preferred */
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
