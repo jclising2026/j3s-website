@@ -353,8 +353,10 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   .mobile-cta .ic{font-size:18px;line-height:1}
 }
 </style>
+<link rel="stylesheet" href="customer-care.css">
 </head>
 <body>
+<a class="skip-link" href="#branches">Skip to ordering</a>
 
 <header>
   <div class="wrap nav">
@@ -366,10 +368,9 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <a href="#services">Services</a>
       <a href="#branches">Branches</a>
       <a href="#prices">Prices</a>
-      <a href="#laundry-checklist">Laundry Checklist</a>
-      <a href="#story">Our Story</a>
-      <a href="#careers">Careers</a>
-      <a href="#feedback">Feedback</a>
+      <a href="#track-order">Track order</a>
+      <a href="#laundry-checklist">Laundry checklist</a>
+      <a href="#feedback" data-care-event="feedback_open">Get help</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn" href="#branches">Order Now</a>
@@ -398,7 +399,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       </div>
       <div class="chips" aria-label="Popular prices">
         <span class="chip">5-Gallon Refill <b>₱30</b></span>
-        <span class="chip">Tube Ice (Whole) <b>₱140</b></span>
+        <span class="chip">J3S own ice <b>1–20 kg</b></span>
         <span class="chip">Laundry Wash from <b>₱60</b></span>
         <span class="chip">Bondat <b>₱5</b></span>
       </div>
@@ -406,7 +407,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
      <div class="stack reveal" id="stack" aria-hidden="true">
       <div class="stack-inner" id="stackInner">
         <div class="tile t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg><div><b>Water Refilling</b><small>Purified · ₱30 per 5-gal · delivered</small></div></div>
-        <div class="tile t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg><div><b>Tube Ice</b><small>Made daily at Arkansas · ₱5 to ₱140</small></div></div>
+        <div class="tile t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg><div><b>Tube Ice</b><small>Made daily · 20kg, 5kg, 3kg, 1kg + Bondat</small></div></div>
         <div class="tile t3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 2 4-2 4 3-2 3-2-1v11H8V9L6 10 4 7z"/></svg><div><b>Laundry</b><small>Wash · dry · fold · pickup on select branches</small></div></div>
       </div>
      </div>
@@ -445,8 +446,8 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
           <span class="bar" aria-hidden="true"></span>
           <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg></div>
           <h3>Tube Ice</h3>
-          <p>Fresh ice produced daily at our Arkansas ICE plant — from sari-sari store packs to wholesale blocks for events and businesses.</p>
-          <p class="price">₱5 Bondat · ₱8/kilo · ₱100/20&nbsp;kg · ₱140 whole</p>
+          <p>Our own ice, made daily at Arkansas. Choose 20kg, 5kg, 3kg, 1kg or Bondat for your home, store, or event.</p>
+          <p class="price">20kg · 5kg · 3kg · 1kg · Bondat</p>
           <div class="go"><a href="#branches" onclick="setSvcFilter('ice')">Order ice &rarr;</a></div>
         </div>
         <div class="card svc-laundry reveal">
@@ -464,7 +465,10 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
   <section id="branches" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="wrap">
       <p class="eyebrow">Find us</p>
-      <h2>Eight branches, one tap to order</h2>
+      <h2>Your neighborhood branch, ready to help</h2>
+      <p class="care-lead">Choose a service and your branch. Your order goes directly to that team.</p>
+      <label class="care-search">Find a branch<input id="branchSearch" type="search" placeholder="Branch, street, or area" autocomplete="off"></label>
+      <p id="branchSearchStatus" class="care-muted" aria-live="polite"></p>
       <div class="filters" id="svcFilters" aria-label="Filter branches by service">
         <button type="button" class="on" data-f="all" onclick="setSvcFilter('all')">All branches</button>
         <button type="button" data-f="water" onclick="setSvcFilter('water')">💧 Water</button>
@@ -476,17 +480,25 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     </div>
   </section>
 
+  <section id="track-order" class="care-strip">
+    <div class="wrap care-track-grid">
+      <div><p class="eyebrow">Already ordered?</p><h2>Check your order or ask for help</h2><p>Use the same branch you ordered from. Keep your order number handy.</p></div>
+      <div class="care-track-controls"><label for="trackBranch">Your branch</label><select id="trackBranch"></select><a id="trackOrderLink" class="btn" data-care-event="track_click" href="#branches">Track my order →</a><a href="#feedback" data-care-event="feedback_open">Report an issue or send feedback</a></div>
+    </div>
+  </section>
   <section id="prices">
     <div class="wrap">
       <p class="eyebrow">Straight prices</p>
-      <h2>Walk-in price list</h2>
+      <h2>Current prices from your branch</h2>
+      <label class="care-search">Choose a branch<select id="priceBranch"><option value="">Select your branch</option></select></label>
+      <p id="livePriceStatus" class="care-muted" aria-live="polite">Choose your branch to load its current ordering prices.</p>
       <div class="price-wrap">
         <table>
           <thead><tr><th>Product</th><th>Service</th><th style="text-align:right">Price</th></tr></thead>
           <tbody id="priceRows"><!-- rendered from CONTENT --></tbody>
         </table>
       </div>
-      <p class="price-note">Regular customer prices shown; laundry prices are starting rates. Dealer and wholesale pricing available case-to-case — ask your branch or order online.</p>
+      <p class="price-note">Prices below use the same regular delivery rates as the branch order page. Walk-in prices, discounts and laundry totals may differ. Confirm the total with your branch before paying.</p>
     </div>
   </section>
 
@@ -496,8 +508,8 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
       <h2>Order in three steps</h2>
       <div class="steps">
         <div class="step reveal"><h3>Choose your branch</h3><p>Pick the J3S branch nearest you and tap Order Online — or just walk in.</p></div>
-        <div class="step reveal"><h3>Pay your way</h3><p>Cash on delivery or GCash — your receipt is recorded either way.</p></div>
-        <div class="step reveal"><h3>Delivered or ready</h3><p>Our drivers deliver water and ice to your door, or your laundry comes back folded.</p></div>
+        <div class="step reveal"><h3>Review your order</h3><p>Check your items, address and payment method. Your branch confirms availability, delivery and the final total.</p></div>
+        <div class="step reveal"><h3>Track and receive</h3><p>Save your order number and check its status. If something needs attention, send feedback to the same branch.</p></div>
       </div>
     </div>
   </section>
@@ -683,8 +695,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
     <div class="wrap">
       <p class="eyebrow">We're listening</p>
       <h2>Review, complaint, or request — tell us</h2>
-      <p style="color:var(--mist);max-width:52ch;margin-bottom:22px">Good or bad, your message goes straight
-      to the owners. Complaints get tracked until they're resolved.</p>
+      <p style="color:var(--mist);max-width:52ch;margin-bottom:22px">Your message reaches the selected branch, with owner/admin oversight. Save your reference to check its status. Complaints stay open until the team records a resolution.</p>
       <form id="fbForm" class="fb-form" novalidate>
         <div class="fb-row">
           <label>Type
@@ -896,8 +907,6 @@ var CONTENT = {
     { product:"Ice 3 Kilos",               service:"Ice",    price:25 },
     { product:"Ice 5 Kilos",               service:"Ice",    price:40 },
     { product:"Ice 20 Kilos",              service:"Ice",    price:100 },
-    { product:"Whole Block",               service:"Ice",    price:140 },
-    { product:"Mr Freeze Tube ICE",        service:"Ice",    price:180 },
     { product:"Laundry Wash (per 8 kg load)", service:"Laundry", price:60 },
     { product:"Laundry Dry (per 8 kg load)",  service:"Laundry", price:75 }
   ]
@@ -927,6 +936,8 @@ var SVC_LABEL = { water:['sc-water','WATER'], ice:['sc-ice','ICE'], laundry:['sc
    owner-published content fetched from the J3S system. */
 var CURRENT = CONTENT;
 function renderSite(C){
+C.branches.forEach(function(b){ if(/hawaii/i.test(b.name)) b.order='https://j3s1-southville-hawaii.up.railway.app/order'; });
+C.prices=(C.prices||[]).filter(function(p){ return !/mr freeze|whole block/i.test(p.product||''); });
 CURRENT = C;
 
 if (C.site && C.site.heading) {
@@ -966,14 +977,11 @@ document.getElementById('branchGrid').innerHTML = C.branches.map(function(b, i){
     (b.gcash ? '<div class="meta">GCash: ' + esc(b.gcash.name) + ' · ' + esc(b.gcash.number) +
                (b.gcash.email ? '<br>' + esc(b.gcash.email) : '') + '</div>' +
                '<div><button type="button" class="qr-btn" onclick="openQr(' + i + ')">Scan GCash QR</button></div>' : '') +
-    '<div class="order-link"><a href="' + safeHref(b.order) + '">Order online &rarr;</a></div>' +
+    '<div class="order-link"><a data-care-event="order_click" data-branch-origin="' + esc(b.order ? new URL(b.order, location.origin).origin : '') + '" href="' + safeHref(b.order) + '">Order online &rarr;</a></div>' +
   '</div>';
 }).join('');
 
-document.getElementById('priceRows').innerHTML = C.prices.map(function(p){
-  var amt = (p.price === null || p.price === undefined) ? 'ask branch' : peso(p.price);
-  return '<tr><td>' + esc(p.product) + '</td><td>' + esc(p.service) + '</td><td class="amt">' + amt + '</td></tr>';
-}).join('');
+document.getElementById('priceRows').replaceChildren(); // Prices load only from the selected branch.
 
 /* Phone directory: every branch line, tap-to-call (same numbers as the Order cards) */
 var _pd = document.getElementById('phoneDirectory');
@@ -1119,7 +1127,10 @@ document.getElementById('footerYear').textContent =
       status.textContent = 'Please write at least a short message.';
       return;
     }
+    var requestKey = document.getElementById('fbForm').dataset.requestKey || crypto.randomUUID();
+    document.getElementById('fbForm').dataset.requestKey = requestKey;
     var payload = {
+      request_key: requestKey,
       feedback_type: typeSel.value,
       branch_name: branchSel.value,
       customer_name: document.getElementById('fbName').value.trim(),
@@ -1131,7 +1142,9 @@ document.getElementById('footerYear').textContent =
     btn.disabled = true;
     status.className = 'fb-status';
     status.textContent = 'Sending...';
-    fetch(CONTENT.feedbackApi, {
+    var feedbackBranch = CURRENT.branches.find(function(b){ return b.name === branchSel.value; });
+    var feedbackApi = feedbackBranch ? new URL(feedbackBranch.order).origin + '/api/public/feedback' : CONTENT.feedbackApi;
+    fetch(feedbackApi, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(payload)
@@ -1141,7 +1154,8 @@ document.getElementById('footerYear').textContent =
       if (res.ok && res.d.success) {
         document.getElementById('fbForm').innerHTML =
           '<p style="font-size:18px;font-weight:800;color:#2F9E44">Salamat! Your feedback was received.</p>' +
-          '<p style="color:var(--mist)">The owners read every message. Complaints are tracked until resolved.</p>';
+          '<p style="color:var(--mist)">Reference: <strong>' + esc(res.d.reference || '') + '</strong>. Keep this reference. Your branch can review it with owner/admin oversight.</p>';
+        if(res.d.tracking_token && window.showFeedbackReceipt) window.showFeedbackReceipt(res.d, new URL(feedbackApi).origin);
       } else {
         throw new Error(res.d.error || 'Submission failed');
       }
@@ -1439,5 +1453,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersect
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
 }
 </script>
+<script src="customer-care.js" defer></script>
+<script src="website-visit.js" data-page="home" data-endpoint="https://j3s-southville-main.up.railway.app/api/public/website-visit" defer></script>
 </body>
 </html>

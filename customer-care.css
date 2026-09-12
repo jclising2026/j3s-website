@@ -1,0 +1,27 @@
+:root{scroll-padding-top:90px}
+html{scroll-behavior:smooth}
+.skip-link{position:fixed;top:-80px;left:12px;z-index:1000;background:#fff;color:#113c4d;padding:12px;border-radius:8px}
+.skip-link:focus{top:12px}
+:focus-visible{outline:3px solid #e89424;outline-offset:4px}
+.care-lead{max-width:58ch;color:#45616e;margin:-8px 0 22px;line-height:1.65}
+.care-search{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700;max-width:560px;margin:16px 0}
+.care-search input,.care-search select,.care-track-controls select{width:100%;min-height:48px;border:1px solid #b7cbd4;border-radius:10px;padding:12px 14px;background:#fff;color:#153a4b;font:inherit}
+.care-muted{font-size:13px;line-height:1.6;color:#526f7d;margin:10px 0}
+.care-strip{background:#eaf5f8;border-block:1px solid #c8dfe7}
+.care-track-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.care-track-grid h2{font-size:clamp(26px,3vw,38px);max-width:20ch}
+.care-track-controls{display:grid;gap:12px;align-content:start;background:#fff;border:1px solid #c8dfe7;border-radius:18px;padding:24px;box-shadow:0 12px 28px #12384a0a}
+.care-track-controls label{font-weight:800;font-size:14px}
+.care-track-controls .btn{text-align:center;justify-content:center}
+.branch{display:flex;flex-direction:column;box-shadow:0 8px 24px #153a4b08}
+.branch .order-link{margin-top:auto;padding-top:20px}
+.branch .order-link a{display:block;background:#0c536b;color:white!important;border-radius:10px;padding:13px 16px;text-align:center;text-decoration:none!important}
+.branch .order-link a:hover{background:#073e51}
+.branch[hidden]{display:none!important}
+.care-receipt{margin:18px 0;padding:20px;border:1px solid #bddcd0;background:#eef9f3;border-radius:12px;line-height:1.7;overflow-wrap:anywhere}
+.care-receipt h3{font-size:20px;margin:0 0 8px}
+.care-receipt a{font-weight:700;text-decoration:underline}
+.care-privacy{font-size:12px;line-height:1.7;color:#55717c;padding-top:16px}
+.filters button{min-height:44px}
+@media(max-width:700px){.care-track-grid{grid-template-columns:1fr;gap:20px}.care-track-controls{padding:20px}.care-search{max-width:none}.branch-grid{gap:16px}.care-track-grid h2{max-width:none}.nav .btn{padding:10px 14px;font-size:13px}.hero{padding-bottom:38px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{scroll-behavior:auto!important}}
