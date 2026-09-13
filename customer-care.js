@@ -35,13 +35,15 @@
       if(!r.ok)throw Error('unavailable');const d=await r.json();if(request!==priceRequest)return;
       const cfg=d.branch||{};let shown=0;
       (d.products||[]).forEach(p=>{
-        if(p.category==='ice' && (!cfg.has_ice || !/\b(20|5|3|1)\s*kilo|bondat/i.test(p.name)))return;
+        if(p.category==='ice' && (!cfg.has_ice || !/\b(20|5|3|1)\s*kilo|bondat|^Mr Freeze Tube ICE$/i.test(p.name)))return;
         if(p.category==='wrs'&&!cfg.has_wrs)return;
         if(p.category==='laundry'&&!cfg.has_laundry)return;
         const chain={ice:['ice_delivered_retail','ice_walkin'],wrs:['wrs_delivered','wrs_dropoff','wrs_walkin'],laundry:['laundry_pickup','laundry_per_load','laundry_walkin']}[p.category];
         if(!chain)return;const key=chain.find(k=>p.prices&&p.prices[k]!=null);if(!key)return;
         const tr=document.createElement('tr');
-        [p.name,{ice:'J3S Ice',wrs:'Water',laundry:'Laundry'}[p.category],new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(p.prices[key])].forEach((value,index)=>{const td=document.createElement('td');td.textContent=value;if(index===2)td.className='amt';tr.append(td);});
+        const name=p.name==='Mr Freeze Tube ICE'?'Mr Freeze 45 kilos (sack included)':p.name;
+        const service=p.category==='ice'&&/^Mr Freeze/i.test(p.name)?'Mr Freeze Ice':{ice:'J3S Ice',wrs:'Water',laundry:'Laundry'}[p.category];
+        [name,service,new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(p.prices[key])].forEach((value,index)=>{const td=document.createElement('td');td.textContent=value;if(index===2)td.className='amt';tr.append(td);});
         rows.append(tr);shown++;
       });
       status.textContent=shown?'Current regular ordering prices. Your branch confirms availability and the final total.':'Ask this branch to confirm the current price for your order.';

@@ -901,6 +901,7 @@ var CONTENT = {
   photos: [],
 
   prices: [
+    { product:"Mr Freeze 45 kilos (sack included)", service:"Ice", price:200 },
     { product:"5-Gallon Container Refill", service:"Water",  price:30 },
     { product:"Bondat",                    service:"Ice",    price:5 },
     { product:"Ice 1 Kilo",                service:"Ice",    price:8 },
@@ -937,7 +938,7 @@ var SVC_LABEL = { water:['sc-water','WATER'], ice:['sc-ice','ICE'], laundry:['sc
 var CURRENT = CONTENT;
 function renderSite(C){
 C.branches.forEach(function(b){ if(/hawaii/i.test(b.name)) b.order='https://j3s1-southville-hawaii.up.railway.app/order'; });
-C.prices=(C.prices||[]).filter(function(p){ return !/mr freeze|whole block/i.test(p.product||''); });
+C.prices=(C.prices||[]).filter(function(p){ return !/whole block/i.test(p.product||''); });
 CURRENT = C;
 
 if (C.site && C.site.heading) {
