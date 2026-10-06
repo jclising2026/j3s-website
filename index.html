@@ -32,13 +32,13 @@
   "areaServed": ["Biñan, Laguna", "Carmona, Cavite", "Baesa, Caloocan", "San Pedro, Laguna"],
   "department": [
     {"@type":"LocalBusiness","name":"J3S1 Hawaii","description":"Laundry","telephone":"+639649704121","openingHours":"Mo-Su 07:00-19:00"},
-    {"@type":"LocalBusiness","name":"J3S Southville Main","description":"Water refilling, ice, laundry","telephone":"+639649704121","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S Southville Main","description":"Water refilling, ice, laundry","telephone":"+639649704121","openingHours":["Mo 07:00-19:00", "Tu 07:00-19:00", "Th 07:00-19:00", "Fr 07:00-19:00", "Sa 07:00-19:00", "Su 07:00-19:00"]},
     {"@type":"LocalBusiness","name":"J3S2 Arkansas ICE","description":"Tube ice plant and wholesale","telephone":"+639618573327","openingHours":"Mo-Su 07:00-19:00"},
-    {"@type":"LocalBusiness","name":"J3S3 Terraverde","description":"Water refilling, ice, laundry","telephone":"+639458727626","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
-    {"@type":"LocalBusiness","name":"J3S4 PUC","description":"Water refilling, laundry","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
-    {"@type":"LocalBusiness","name":"J3S5 SouthCity","description":"Water refilling","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
-    {"@type":"LocalBusiness","name":"J3S6 Adelina","description":"Water refilling","telephone":"+639469851019","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]},
-    {"@type":"LocalBusiness","name":"J3S7 Carmona","description":"Water refilling, ice, laundry","telephone":"+639244840636","openingHours":["Mo 07:00-19:00","Tu 07:00-19:00","Th 07:00-19:00","Fr 07:00-19:00","Sa 07:00-19:00","Su 07:00-19:00"]}
+    {"@type":"LocalBusiness","name":"J3S3 Terraverde","description":"Water refilling, ice, laundry","telephone":"+639458727626","openingHours":["Mo 07:00-19:00", "We 07:00-19:00", "Th 07:00-19:00", "Fr 07:00-19:00", "Sa 07:00-19:00", "Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S4 PUC","description":"Water refilling, laundry","openingHours":"Mo-Su 07:00-19:00"},
+    {"@type":"LocalBusiness","name":"J3S5 SouthCity","description":"Water refilling","openingHours":["Mo 07:00-19:00", "Tu 07:00-19:00", "We 07:00-19:00", "Th 07:00-19:00", "Sa 07:00-19:00", "Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S6 Adelina","description":"Water refilling","telephone":"+639469851019","openingHours":["Tu 07:00-19:00", "We 07:00-19:00", "Th 07:00-19:00", "Fr 07:00-19:00", "Sa 07:00-19:00", "Su 07:00-19:00"]},
+    {"@type":"LocalBusiness","name":"J3S7 Carmona","description":"Water refilling, ice, laundry","telephone":"+639244840636","openingHours":["Mo 07:00-19:00", "Tu 07:00-19:00", "We 07:00-19:00", "Th 07:00-19:00", "Fr 07:00-19:00", "Sa 07:00-19:00"]}
   ]
 }
 </script>
@@ -414,7 +414,7 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
      </div>
       <div class="trust" aria-label="Why J3S">
         <div><b data-count="8">0</b><span>branches, Biñan · Carmona · Caloocan</span></div>
-        <div><b>7 AM–7 PM</b><span>open daily; most branches rest Wednesdays</span></div>
+        <div><b>7 AM–7 PM</b><span>every branch rests one day a week — see each branch</span></div>
         <div><b data-count="3">0</b><span>services under one roof</span></div>
         <div><b>Cash · GCash</b><span>pay your way, official receipt on request</span></div>
       </div>
@@ -749,8 +749,8 @@ a.tel:hover{color:var(--sea);text-decoration:underline}
         </div>
         <div>
           <h3>Store hours</h3>
-          <p>Daily 7 AM – 7 PM<br>Closed Wednesdays<br>
-          <span style="color:#8FB2C4;font-size:13.5px">Except J3S1 Hawaii &amp; J3S2 Arkansas ICE — open all 7 days</span></p>
+          <p>Daily 7 AM – 7 PM<br>
+          <span style="color:#8FB2C4;font-size:13.5px">Closed one day a week: Adelina Monday · Terraverde Tuesday · Southville Main Wednesday · SouthCity Friday · Carmona Sunday.<br>Open all 7 days: J3S1 Hawaii, J3S2 Arkansas ICE, J3S4 PUC.</span></p>
         </div>
         <div>
           <h3>Email</h3>
@@ -867,27 +867,27 @@ var CONTENT = {
       order:"https://j3s2-arkansas-ice-production.up.railway.app/order" },
     { name:"J3S3 Terraverde", area:"Terraverde Residences, Brgy. Mabuhay, Carmona, Cavite",
       address:"Blk. 12 Lot 18, Phase 5, Terraverde Residences, Brgy. Mabuhay, Carmona, Cavite 4116",
-      services:["water","ice","laundry"], phone:"0945 872 7626", hours:"7 AM – 7 PM · Closed Wednesdays",
+      services:["water","ice","laundry"], phone:"0945 872 7626", hours:"7 AM – 7 PM · Closed Tuesdays",
       gcash:{ name:"J3S", number:"0956 643 5732", email:"j3sbusiness@gmail.com", qr:null },
       order:"https://j3s-terraverde.up.railway.app/order" },
     { name:"J3S4 PUC", area:"Baesa, Caloocan City",
       address:"565 Cabal Lane, Reparo Road, Baesa, Caloocan City 1401",
-      services:["water","laundry"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
+      services:["water","laundry"], phone:null, hours:"Open daily · 7 AM – 7 PM",
       gcash:{ name:"J3S", number:"0935 474 6369", email:"j3sbusiness@gmail.com", qr:null },
       order:"https://j3s4-puc.up.railway.app/order" },
     { name:"J3S5 SouthCity", area:"South City Homes, Brgy. Sto. Tomas, Biñan, Laguna",
       address:"BLK 27 LOT 8 Davao St., South City Homes, Brgy. Sto. Tomas, Biñan, Laguna 4024",
-      services:["water"], phone:null, hours:"7 AM – 7 PM · Closed Wednesdays",
+      services:["water"], phone:null, hours:"7 AM – 7 PM · Closed Fridays",
       gcash:{ name:"J3S", number:"0928 398 9415", email:"j3sbusiness@gmail.com", qr:null },
       order:"https://j3s5-southcity.up.railway.app/order" },
     { name:"J3S6 Adelina", area:"Adelina 3, Brgy. Sto. Tomas, Biñan, Laguna",
       address:"Adelina 3, Phase 1, Blk. 6 Lot 11, Narra St., Brgy. Sto. Tomas, Biñan, Laguna 4024",
-      services:["water"], phone:"0946 985 1019", hours:"7 AM – 7 PM · Closed Wednesdays",
+      services:["water"], phone:"0946 985 1019", hours:"7 AM – 7 PM · Closed Mondays",
       gcash:{ name:"Rosalinda L", number:"0935 529 8131", email:"jclising@gmail.com", qr:null },
       order:"https://j3s6-adelina.up.railway.app/order" },
     { name:"J3S7 Carmona", area:"Carmona Estates, Carmona, Cavite",
       address:"B1 L65 Opal St., Phase 13, Carmona Estates, Carmona, Cavite 4116",
-      services:["water","ice","laundry"], phone:"0924 484 0636", hours:"7 AM – 7 PM · Closed Wednesdays",
+      services:["water","ice","laundry"], phone:"0924 484 0636", hours:"7 AM – 7 PM · Closed Sundays",
       gcash:{ name:"J3S", number:"0956 643 5732", email:"j3sbusiness@gmail.com", qr:null },
       order:"https://j3s7-carmona-production.up.railway.app/order" }
   ],
