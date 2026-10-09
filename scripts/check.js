@@ -1,6 +1,6 @@
 const fs=require('fs');
 const vm=require('vm');
-for(const path of ['customer-care.js','website-visit.js'])new vm.Script(fs.readFileSync(path,'utf8'),{filename:path});
+for(const path of ['customer-care.js','website-visit.js','registration.js'])new vm.Script(fs.readFileSync(path,'utf8'),{filename:path});
 const html=fs.readFileSync('index.html','utf8');
 let count=0;
 for(const match of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)){
@@ -11,3 +11,5 @@ for(const match of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)){
 for(const path of ['customer-care.css','CNAME','og-image.png'])if(!fs.existsSync(path))throw Error('Missing '+path);
 if(fs.readFileSync('CNAME','utf8').trim()!=='j3sthebest.com')throw Error('Unexpected deployment domain');
 console.log('PASS website scripts, structured data, local assets and domain');
+
+for(const asset of ['register.html','registration.css'])if(!fs.existsSync(asset))throw Error('Missing '+asset);
